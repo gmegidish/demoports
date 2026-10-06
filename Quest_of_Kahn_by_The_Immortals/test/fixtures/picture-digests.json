@@ -1,0 +1,374 @@
+{
+ "2DTEST.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "1fe827b1e321ae65c404e6c2bf4fa9ec7af6a918",
+  "palette": "bd3a461f8865f809bc7a3ca52501a0de201cee2e"
+ },
+ "2DTEST2.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "170f921574b091502f29a0ffc0cf251996719901",
+  "palette": "e572114faa969110579f6d685ff12931aef3a4bf"
+ },
+ "2DTEST3.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "1c63380572d6b00103fb991ce871238fbc06aae1",
+  "palette": "3f1c271f9a6c53bb9412df6391528f9e0fd47f91"
+ },
+ "BGEM.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "fa5d5ff466d7542b5162c55a4f4fe920e5a14fc4",
+  "palette": "f9701f99f4f0463742be21967faab3607799fb3f"
+ },
+ "BREFMAP.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "4f47332257553f70d65be623f834a586686583ce",
+  "palette": "f9701f99f4f0463742be21967faab3607799fb3f"
+ },
+ "BSKIN.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "e474cda068e2d166dc6ec902f14048e0c252f4b9",
+  "palette": "c0e65a17e2db190513d5643c45656669c0c8ccbb"
+ },
+ "BUTTON.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "e39829e871adbd10f52d16083b59e4971284502d",
+  "palette": "c294a0d912314580ad49a1ceaf0b3e3780f5ebee"
+ },
+ "CEILING.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "489e5bfce6294d700e06c386fbfa6303aba40601",
+  "palette": "2c6d60d5fc35f5e6abbccab7e228284059604a0a"
+ },
+ "CR1.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "ad376282247e11bfb0d4d395dc4d47957fc8db1a",
+  "palette": "ec99af83ba7e3e224a24fc0b7bf511e0b3d57c00"
+ },
+ "CR2.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "2f004a459448f8b245b2c6c33e73eaf198090a67",
+  "palette": "ec99af83ba7e3e224a24fc0b7bf511e0b3d57c00"
+ },
+ "CR3.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "0907b38cdb383529675a1f9912ae023db6cc9095",
+  "palette": "ec99af83ba7e3e224a24fc0b7bf511e0b3d57c00"
+ },
+ "DOOR.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "04b6afa05379b4b9d5ca3823337cf617441d9c73",
+  "palette": "806c6ce2600f19b3062d352f277af15e78962658"
+ },
+ "DOORX.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "ac1220bec8ce84e97632bf0097ccc7289b6de3bb",
+  "palette": "806c6ce2600f19b3062d352f277af15e78962658"
+ },
+ "EFLOOR.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "489e5bfce6294d700e06c386fbfa6303aba40601",
+  "palette": "2c6d60d5fc35f5e6abbccab7e228284059604a0a"
+ },
+ "EWALL.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "7c169913f02152be39f057216a91f77d4ebd53a2",
+  "palette": "f9701f99f4f0463742be21967faab3607799fb3f"
+ },
+ "EYEMAP1.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "c4f18f7f50ee2058fae7d06bf204ba0293215655",
+  "palette": "f68c829037bd5981bb926d78bc58e82d8a44842e"
+ },
+ "EYEMAP3.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "b2e8ec32d46d8e89f35a2888eedf214669b53757",
+  "palette": "d0678b4cc3a9eacb9733371e1a15fe7277554147"
+ },
+ "EYEMAP4.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "719f9fd7b1ade0b5940078590b4340b1ae19a1de",
+  "palette": "806c6ce2600f19b3062d352f277af15e78962658"
+ },
+ "EYEMAPB.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "c7e5f8132abab5f02bebd46624ef1f8ee67a7685",
+  "palette": "c0e65a17e2db190513d5643c45656669c0c8ccbb"
+ },
+ "FLARE.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "6521488c5e6e9126c4bcd1d0c0c4f0344f58b1f4",
+  "palette": "f68c829037bd5981bb926d78bc58e82d8a44842e"
+ },
+ "FLOOR.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "5e666dbc59a31a51c62343c438cb95e6ca23f367",
+  "palette": "2c6d60d5fc35f5e6abbccab7e228284059604a0a"
+ },
+ "GARBA.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "7e989c74ca2714621749ccfbbb9495e9259eaa5c",
+  "palette": "f68c829037bd5981bb926d78bc58e82d8a44842e"
+ },
+ "GEM.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "b301eb0ba348c128231c5f3673e6744670c2e90e",
+  "palette": "2c6d60d5fc35f5e6abbccab7e228284059604a0a"
+ },
+ "IMMOR1.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "8a6b7b3629c13e49d3eaf56d1eca7bcab4271e95",
+  "palette": "d0678b4cc3a9eacb9733371e1a15fe7277554147"
+ },
+ "IMMOR2.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "853ca0c57f6c73f13a4603ac7dc74a16402ed0e9",
+  "palette": "d0678b4cc3a9eacb9733371e1a15fe7277554147"
+ },
+ "LOADING.GIF": {
+  "width": 320,
+  "height": 200,
+  "pixels": "c38481165a59cabe63e2137c2d800ac96731940c",
+  "palette": "78babcb3917888261b243a381f80ddc5d279f907"
+ },
+ "LOGO.GIF": {
+  "width": 320,
+  "height": 200,
+  "pixels": "86e71b622e90e900d51dba1826c916259d83d0c9",
+  "palette": "5e41f9d17e57934688cf778ed252f74599ed0f87"
+ },
+ "MAYAN.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "8c38b4491fcceb5f13b931e96abfcd023cd13136",
+  "palette": "806c6ce2600f19b3062d352f277af15e78962658"
+ },
+ "OFLOOR.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "0182369222f7df0780f42d243634efc963dc76a4",
+  "palette": "d0678b4cc3a9eacb9733371e1a15fe7277554147"
+ },
+ "PANEL.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "9389cb1c6141ad86109c427a9a848a76cd6f574c",
+  "palette": "c294a0d912314580ad49a1ceaf0b3e3780f5ebee"
+ },
+ "PLATE.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "1a3c1827f8564e2e96500f27b7bee5547d0c5d52",
+  "palette": "c0e65a17e2db190513d5643c45656669c0c8ccbb"
+ },
+ "REFMAP.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "313a675d2a8b9197b1b08ecb3188f61260a797ac",
+  "palette": "2c6d60d5fc35f5e6abbccab7e228284059604a0a"
+ },
+ "REFMAP2.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "101b3721b0ed8f569b706de33d5c2a2aa0144e4f",
+  "palette": "c294a0d912314580ad49a1ceaf0b3e3780f5ebee"
+ },
+ "ROCK4.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "da1f79debedd23b1ba8aeff76e144e3488cbda7d",
+  "palette": "c0e65a17e2db190513d5643c45656669c0c8ccbb"
+ },
+ "ROLLER1.GI1": {
+  "width": 256,
+  "height": 256,
+  "pixels": "f6917f2e91c144c2bd69b0010820a0fc1662652f",
+  "palette": "edc656ba942a033e89d5314e8eb2df2615d4c606"
+ },
+ "ROLLER1.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "8f92a7c5266cfc3b6ea1b804ac2171a51fc44abe",
+  "palette": "fe627de2c4c33c234cc9f4a6b19fe0ddacde8032"
+ },
+ "ROLLER2.GI1": {
+  "width": 320,
+  "height": 200,
+  "pixels": "c74acebfdbc41e19a88975c42765c9f8b6adb327",
+  "palette": "edc656ba942a033e89d5314e8eb2df2615d4c606"
+ },
+ "ROLLER2.GIF": {
+  "width": 320,
+  "height": 200,
+  "pixels": "eb5408565cb2b2eca830b885f77dd5150cfc80e9",
+  "palette": "fe627de2c4c33c234cc9f4a6b19fe0ddacde8032"
+ },
+ "ROPEE.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "02d7056488e020a691c830324e976db1e1d71d9a",
+  "palette": "2872cc8e031c2dba382b0aa8979992f3f563e30f"
+ },
+ "RSKIN01.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "6e57d16ab4824b0b7240ebef7774e7ce8273b17a",
+  "palette": "806c6ce2600f19b3062d352f277af15e78962658"
+ },
+ "RSKIN02.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "8c38b4491fcceb5f13b931e96abfcd023cd13136",
+  "palette": "806c6ce2600f19b3062d352f277af15e78962658"
+ },
+ "SCRE0341.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "90f58b0b29e06fac21320f1ac403ce04df9f0e5a",
+  "palette": "c294a0d912314580ad49a1ceaf0b3e3780f5ebee"
+ },
+ "SHAD.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "c7e2aede352136e26dd21dd9bc3dac40f9e93fe3",
+  "palette": "28b90415197927925cfe6a916f25e5d8c8f19114"
+ },
+ "SKIN.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "1de7ae479d38f90f57e394f2874c88ac142f716c",
+  "palette": "d0678b4cc3a9eacb9733371e1a15fe7277554147"
+ },
+ "SKIN01.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "373347ccc420ca4c59eb4e723d1f4c2d6ded5800",
+  "palette": "806c6ce2600f19b3062d352f277af15e78962658"
+ },
+ "SKIN02.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "cf0bf0d4f198ccd1fd0d63b7005dada0b98180a8",
+  "palette": "806c6ce2600f19b3062d352f277af15e78962658"
+ },
+ "SKIN2.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "7e234fab846e1b4fd5ef78f275b5c83a81808776",
+  "palette": "d0678b4cc3a9eacb9733371e1a15fe7277554147"
+ },
+ "SSKIN.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "698d72a5520036b4b77c8c4a7a5bf6c6ee5a1d4a",
+  "palette": "f68c829037bd5981bb926d78bc58e82d8a44842e"
+ },
+ "TABLE.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "020521ceeb85c398d81381fea9c24425135529ac",
+  "palette": "806c6ce2600f19b3062d352f277af15e78962658"
+ },
+ "TOP.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "3305be15a1681e8024c5459e7d84d641c3a8c23a",
+  "palette": "f68c829037bd5981bb926d78bc58e82d8a44842e"
+ },
+ "TUNNEL.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "ccc50c0288d460369299c3c731c119f11a6be41a",
+  "palette": "f68c829037bd5981bb926d78bc58e82d8a44842e"
+ },
+ "VELVET.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "33fb0c688fe21291d0316359367850d834d2e1d3",
+  "palette": "c294a0d912314580ad49a1ceaf0b3e3780f5ebee"
+ },
+ "WALLSX.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "938578d9695f7dda58be6a17b37ae74372a1a9d0",
+  "palette": "2c6d60d5fc35f5e6abbccab7e228284059604a0a"
+ },
+ "WALLX.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "dd623daae6d0ab27ac81eca35ba52a71aea200f3",
+  "palette": "806c6ce2600f19b3062d352f277af15e78962658"
+ },
+ "XCEILI.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "88e575e898181ee3a99ea19dcddd3f4f5e5b1423",
+  "palette": "f9701f99f4f0463742be21967faab3607799fb3f"
+ },
+ "XCELING.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "fc670e12cba6caf19bf359a2d1ea3f57a8b494a2",
+  "palette": "806c6ce2600f19b3062d352f277af15e78962658"
+ },
+ "XEYEMAP.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "7bc2a8ddce975a40006452191b09674409d548f4",
+  "palette": "f9701f99f4f0463742be21967faab3607799fb3f"
+ },
+ "XFLOOR.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "558daeedfd4440dc194d9a668ad581f5353cafb6",
+  "palette": "f9701f99f4f0463742be21967faab3607799fb3f"
+ },
+ "XREFMAP.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "066dad56b56949216f2b3e2f3d210b3eb462d10b",
+  "palette": "f9701f99f4f0463742be21967faab3607799fb3f"
+ },
+ "XSKIN.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "84f51f29a922c68e8c50e477c0dab6171d381211",
+  "palette": "f9701f99f4f0463742be21967faab3607799fb3f"
+ },
+ "XWOOOD.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "76d8783e4cdac7ed87ca04f96dcec37357b89cec",
+  "palette": "f9701f99f4f0463742be21967faab3607799fb3f"
+ },
+ "YFLOOR.GIF": {
+  "width": 256,
+  "height": 256,
+  "pixels": "0f1ee74269fb6ef6298f87d5904f1db46461fb1a",
+  "palette": "806c6ce2600f19b3062d352f277af15e78962658"
+ }
+}
