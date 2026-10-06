@@ -1,6 +1,6 @@
 # Baygon — in a browser
 
-**▶ [Watch it in your browser](https://gmegidish.github.io/demoports/Baygon%20by%20Melon%20Dezign/)** · press **F** for fullscreen
+**▶ [Watch it in your browser](https://gmegidish.github.io/demoports/Baygon_by_Melon_Dezign/)** · press **F** for fullscreen
 
 *Baygon* is a demo by Melon Dezign, released for the Amiga 1200 in 1995. One disk, four and a half minutes: a walk through a mushroom field, a bee, a logo made of scanlines over space invaders, pictures by Walt, a 3D melon slice, a dancer, four pencil animations over a spiral, a poster, and thirteen pages of credits that end by rebooting the machine.
 
