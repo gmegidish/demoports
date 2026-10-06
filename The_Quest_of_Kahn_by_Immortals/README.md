@@ -1,6 +1,6 @@
 # The Quest of Kahn — in a browser
 
-**▶ [Watch it in your browser](https://gmegidish.github.io/demoports/Quest_of_Kahn_by_The_Immortals/)** · press **F** for fullscreen
+**▶ [Watch it in your browser](https://gmegidish.github.io/demoports/The_Quest_of_Kahn_by_Immortals/)** · press **F** for fullscreen
 
 *The Quest of Kahn* is a demo by Immortals, first place at Ritual '97, written for MS-DOS in about a week and a half. A green creature's tribe loses the gem that powers its world; Kahn goes after it, through a tunnel, over a rope bridge, into the villain's hall. Textured 3D from 3D Studio scenes, a tracker module, and a roller-coaster built in code for the credits.
 
