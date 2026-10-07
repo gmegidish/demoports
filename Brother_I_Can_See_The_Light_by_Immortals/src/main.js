@@ -129,10 +129,10 @@ try {
   status.textContent = 'click to start';
   overlay.addEventListener('click', start, { once: true });
   overlay.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter' || event.key === ' ') {
+    if ((event.key === 'Enter' || event.key === ' ') && overlay.isConnected) {
       start();
     }
-  }, { once: true });
+  });
 } catch (error) {
   status.textContent = `failed to load — ${error.message}`;
 }

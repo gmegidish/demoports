@@ -23,14 +23,14 @@ python3 -m http.server 8000
 
 | Key | Action |
 |---|---|
-| Click | Start |
+| Click, Enter or Space | Start |
 | **F** | Toggle fullscreen |
 | ← / → | Seek 5 s |
 
 Add `#t=90` to the URL to start 90 s in, `#hud` to show the clock.
 
 ```bash
-npm test                                      # 28 tests, about six seconds
+npm test                                      # 29 tests, about seven seconds
 node tools/shot.mjs /tmp/brother 30 92 130    # render three moments to PNG, no browser
 node tools/poster.mjs                         # renders docs/poster.png
 ```
@@ -85,11 +85,11 @@ Times are from the start of the music.
 
 Verified:
 
-- **Against the original running** (`test/original.test.js`): the logo and the credits, the swirl, and the tunnel are pixel for pixel the recorded frames. Every moment of part 1 checked was identical. The fur planes match except for the top three rows of the recorded frame, which the capture tore. The star and the tennis scene differ in 34 to 75 of 64,000 pixels, each one a neighbouring texel of a perspective-mapped face.
+- **Against the original running** (`test/original.test.js`): the logo and the credits, the swirl, and the tunnel are pixel for pixel the recorded frames. Every moment of part 1 checked was identical. The fur planes were checked with `tools/re/compare.py` only: they match except for the top three rows of the recorded frame, which the capture tore. The star and the tennis scene differ in 34 to 75 of 64,000 pixels, each one a neighbouring texel of a perspective-mapped face.
 - **Rasterisers**: the same code as The Quest of Kahn's, which that port matched byte for byte against the machine code (`test/raster.test.js`). The one filler that differs was checked against the emulated original on 49 frames of the tunnel.
 - **Keyframer and camera**: the engine reader ran them in an emulator on random tracks; outputs agree with the port's code to a float ulp or two.
 - **The files**: all 31 come out of the executable; all 26 pictures decode.
-- **Whole demo**: runs headless from the boot log to "The End!" at 2:55.8 (`test/demo.test.js`).
+- **Whole demo**: runs headless from the boot log to "The End!" at 2:55.8, and a jump into a part shows what playing up to it shows (`test/demo.test.js`).
 - **Browser**: the boot log, playback on the music's clock and seeking were exercised in Chrome. Real-time playback in a visible tab was not watched end to end.
 
 Not the same as the original, and why:
@@ -114,7 +114,7 @@ src/xm.js               when each row of the module plays
 src/machine.js          screen, work buffers, DAC, tick counters, MIDAS play status
 src/grid.js             the 8x8-cell grid of the 2D parts, polar tables, rotation, rays
 src/tables.js           additive and shade lookup tables
-src/parts/              one file per part: intro, kaleidoscope, scenes (parts 3 and 5), tunnel, fur
+src/parts/              one file per part: intro, kaleidoscope, scenes (parts 3 and 5), tunnel, fur; common.js for fades
 src/engine/             The Quest of Kahn's engine, patched: scene loader, keyframer, animate/sort, drawers, rasteriser
 src/screen.js, textscreen.js, gif.js, picture.js
 assets/music.ogg        BICSTL.XM rendered with libopenmpt

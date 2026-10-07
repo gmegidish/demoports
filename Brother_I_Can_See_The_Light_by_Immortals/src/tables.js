@@ -1,5 +1,5 @@
 // Colour-mixing lookup tables. The demo is 8-bit: "add these two colours" means "find the palette
-
+// entry closest to their sum", precomputed for all 256 x 256 pairs. TEST.EXE 0x10908, 0x11780, 0x107d0.
 
 const COLOURS = 256;
 const TABLE_BYTES = COLOURS * COLOURS;

@@ -7,7 +7,7 @@
 // texel coordinates; after it, screen x, screen y, 1/z and, for the perspective drawers, u/z, v/z.
 
 import { WIDTH, HEIGHT } from '../machine.js';
-import { fillTrapezoids, createTrapezoids, fillAffineTriangle, AFFINE_OPAQUE, AFFINE_SHADE } from './raster.js';
+import { fillTrapezoids, createTrapezoids, fillAffineTriangle, AFFINE_OPAQUE } from './raster.js';
 
 const f = Math.fround;
 
@@ -479,17 +479,6 @@ function emitAffine(a, b, c) {
   fillAffineTriangle(view.target, texture, corners[0], corners[1], corners[2], AFFINE_OPAQUE);
 }
 
-function emitShade(a, b, c) {
-  toIntegerCorner(corners[0], a);
-  toIntegerCorner(corners[1], b);
-  toIntegerCorner(corners[2], c);
-  // The original leaves the second attribute uninitialised; the shade filler never samples it.
-  corners[0].v = 0;
-  corners[1].v = 0;
-  corners[2].v = 0;
-  fillAffineTriangle(view.target, blendTable, corners[0], corners[1], corners[2], AFFINE_SHADE);
-}
-
 /**
  * Draw one triangle given in view space with a perspective-correct texture. 0x27670; with a
  * table, 0x29510.
@@ -520,16 +509,5 @@ export function drawAffineTriangle(a, b, c, texels) {
   texture = texels;
   isAffine = true;
   emit = emitAffine;
-  drawPiece(a, b, c, STAGE_FULL, 0);
-}
-
-/**
- * No texture: the fourth float of each vertex is a level, interpolated across the triangle, and
- * every pixel becomes table[screen << 8 | level]. 0x2b3c0.
- */
-export function drawShadeTriangle(a, b, c, table) {
-  blendTable = table;
-  isAffine = true;
-  emit = emitShade;
   drawPiece(a, b, c, STAGE_FULL, 0);
 }

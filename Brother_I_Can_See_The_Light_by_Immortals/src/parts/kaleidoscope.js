@@ -83,10 +83,17 @@ function fadeIn(machine, phase, palette) {
   }
 }
 
-function drawFlares(machine, part) {
+function drawFlares(demo, part) {
+  const machine = demo.machine;
   const t = f(machine.timerA.value * FLARE_SPEED);
   const point = new Float32Array(3);
   for (const path of part.paths) {
+    // After a jump in time the spline's cursor, which moves one key a call, catches up first.
+    if (demo.isSettling) {
+      for (let pass = 0; pass < FLARE_KEYS; pass++) {
+        evaluate(path, t, point, 0, 3);
+      }
+    }
     evaluate(path, t, point, 0, 3);
     const x0 = Math.trunc(point[0] - FLARE_HALF_SIZE);
     const y0 = Math.trunc(point[1] - FLARE_HALF_SIZE);
@@ -109,7 +116,8 @@ function* phase(demo, firstPosition, lastPosition, withFlares) {
     computeSwirl(demo, machine.timerB.value);
     drawGrid(machine.bufferA, part.texture, demo.grid);
     if (withFlares) {
-      drawFlares(machine, part);
+      drawFlares(demo, part);
+      demo.isSettling = false;
     }
     showBuffer(machine, machine.bufferA);
     yield;

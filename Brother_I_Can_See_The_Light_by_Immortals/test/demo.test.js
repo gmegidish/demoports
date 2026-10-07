@@ -49,3 +49,20 @@ test('the screen is graphics from the moment the music starts', () => {
   assert.equal(machine.isTextMode, false);
   assert.ok(machine.front.every((index) => index === 0));
 });
+
+test('a jump to the flares of part 2 shows what playing up to them shows', () => {
+  const seconds = 56;
+  const played = createDemo(demoAssets(), demoMusic());
+  while (!played.machine.isMusicStarted) {
+    played.step();
+  }
+  while (played.machine.time + FRAME_SECONDS <= seconds) {
+    played.machine.time += FRAME_SECONDS;
+    played.step();
+  }
+  played.machine.time = seconds;
+  played.step();
+  const jumped = demoAt(seconds);
+  assert.deepEqual(jumped.machine.front, played.machine.front);
+  assert.deepEqual(jumped.machine.dac, played.machine.dac);
+});

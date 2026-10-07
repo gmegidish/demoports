@@ -207,16 +207,6 @@ function findWorldObject(scene, name) {
   return entry ? entry.object : null;
 }
 
-/** Case-insensitive, meshes only. 0x2d0b8. */
-export function findMesh(scene, name) {
-  const wanted = name.toLowerCase();
-  const entry = scene.world.find((item) => item.type === WORLD_MESH && item.object.name !== null && item.object.name.toLowerCase() === wanted);
-  if (!entry) {
-    throw new Error(`no mesh named "${name}" in the scene`);
-  }
-  return entry.object;
-}
-
 /** Case-insensitive, any kind of object: the parts use it to find cameras. 0x2d014. */
 export function findObject(scene, name) {
   const object = findWorldObject(scene, name);

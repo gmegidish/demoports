@@ -5,7 +5,6 @@ const f = Math.fround;
 
 /** The engine's own value of pi (a double at 0x51d2c): close, not exact. */
 export const DEMO_PI = 3.141592687;
-export const DEGREES_TO_RADIANS = DEMO_PI * 0.005555555555555555;
 
 export function dot(a, b) {
   return a[1] * b[1] + a[0] * b[0] + a[2] * b[2];

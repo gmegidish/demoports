@@ -45,12 +45,11 @@ function fillColumns(buffer, firstColumn, width) {
   }
 }
 
-/** The four triggers of phase A (rows 0 and 64 of positions 0..2) and what each one draws. */
+/** The triggers of phase A (rows 0 and 64 of positions 0 and 1) and what each one draws. */
 const BAR_TRIGGERS = [
   { position: 0, row: 64, draw: (a) => { fillColumns(a, 20, 4); fillColumns(a, 31, 4); } },
   { position: 1, row: 0, draw: (a) => fillRows(a, 110, 113) },
   { position: 1, row: 64, draw: (a) => { fillRows(a, 20, 23); fillRows(a, 112, 115); } },
-  { position: 2, row: 0, draw: () => {} },
 ];
 
 function* bars(demo) {
