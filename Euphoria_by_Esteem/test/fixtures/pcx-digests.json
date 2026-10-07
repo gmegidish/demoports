@@ -1,0 +1,149 @@
+{
+ "19.pcx": {
+  "w": 320,
+  "h": 200,
+  "pix": "27965028c83a854fa2cd5f3e772e8f60580c33cf",
+  "pal": "1804caf252fbbe72d696158d337141148b284fa9",
+  "mode": "P"
+ },
+ "21.pcx": {
+  "w": 320,
+  "h": 200,
+  "pix": "725f15e72122cb0e7b76388d99cbdc31c997cb9c",
+  "pal": "9013c808013800c1a5beb1a9a3cc5044a1c8031a",
+  "mode": "P"
+ },
+ "23.pcx": {
+  "w": 320,
+  "h": 200,
+  "pix": "f5da4c60d54783be18dcabce11f55bdbbd33376e",
+  "pal": "badf71e6822fb17f2f01e5d9c88175404107a954",
+  "mode": "P"
+ },
+ "24.pcx": {
+  "w": 320,
+  "h": 200,
+  "pix": "050edbbdaa693805c5f4458c6ba046f92d15e6ac",
+  "pal": "b6a09abeb9950495f5c8c5f7a400a33be67654d3",
+  "mode": "P"
+ },
+ "25.pcx": {
+  "w": 640,
+  "h": 480,
+  "pix": "320b14986bb1165d4d4927e2ebb7c37510c35ee9",
+  "pal": "9f332bb77b796853c507ac4101f4f783337faa08",
+  "mode": "P"
+ },
+ "26.pcx": {
+  "w": 320,
+  "h": 200,
+  "pix": "3259f85ae4018d6901422656527c720bf89dde35",
+  "pal": "87aae441ef63d2fb0819b9fd13c547294b21f353",
+  "mode": "P"
+ },
+ "27.pcx": {
+  "w": 320,
+  "h": 200,
+  "pix": "25fd402b02b84b458febc822be793d98ec6ad3bb",
+  "pal": "a34fc40f11deac402e01002fb2bf2afac465aefd",
+  "mode": "P"
+ },
+ "28.pcx": {
+  "w": 320,
+  "h": 200,
+  "pix": "dbd91a8c4561c4977191a09569b7134eea8f7c16",
+  "pal": "d09f10de6d4bfcf825e541fab6d0c2d64ab5bf0d",
+  "mode": "P"
+ },
+ "29.pcx": {
+  "w": 320,
+  "h": 200,
+  "pix": "b4631a0175fa0924f97436582b2a108632988736",
+  "pal": "bdabd1a0a1dc58db9f708dab4d2a57f7e0fc7145",
+  "mode": "P"
+ },
+ "30.pcx": {
+  "w": 320,
+  "h": 200,
+  "pix": "027d2acd9551dddbb523cf4d7e268251c917756b",
+  "pal": "fd74624d6fa5632688b4c10e323fda89073baa78",
+  "mode": "P"
+ },
+ "31.pcx": {
+  "w": 320,
+  "h": 200,
+  "pix": "df9bba1b52998a7bf9c96539e1f2e9d01d3ed1bb",
+  "pal": "67da36c37263a1f47f9863cf6dee93372f7f3259",
+  "mode": "P"
+ },
+ "32.pcx": {
+  "w": 320,
+  "h": 200,
+  "pix": "6b8a5c4f6797683f55c0068515ba31e104feca39",
+  "pal": "5b5b3773570713ee1974729562ba52178c5cb123",
+  "mode": "P"
+ },
+ "33.pcx": {
+  "w": 320,
+  "h": 200,
+  "pix": "a60641463bac6a7dd060c01d2473607d8571160c",
+  "pal": "f7adcdd8284c1426a79fd0361a84dbc8a207e001",
+  "mode": "P"
+ },
+ "34.pcx": {
+  "w": 320,
+  "h": 200,
+  "pix": "4a61780c968d83961365ce004ba2896c2cee7026",
+  "pal": "5e4cd93bfdbd2785afe4bfcde155d53c4ddb8075",
+  "mode": "P"
+ },
+ "35.pcx": {
+  "w": 320,
+  "h": 200,
+  "pix": "11b7f2771d79532c1078b6b59fe1d5be9d642097",
+  "pal": "654806ecc8b8e31196c05d7f071b4a019c58c788",
+  "mode": "P"
+ },
+ "36.pcx": {
+  "w": 320,
+  "h": 200,
+  "pix": "2fb056600d51d54b3e0d53c846baf979a2cc515f",
+  "pal": "7221feb31ac42caf05a51db221e38ce306f61e44",
+  "mode": "P"
+ },
+ "37.pcx": {
+  "w": 320,
+  "h": 200,
+  "pix": "b5bf4d1dd7331f43562e8bf979783d1a89677a24",
+  "pal": "be3105c8f0387c71b323b7062d3d295c9d2a7ada",
+  "mode": "P"
+ },
+ "38.pcx": {
+  "w": 320,
+  "h": 200,
+  "pix": "137659463cdd46cc4c25f534a705d44177bcb8aa",
+  "pal": "e4607f87e519fceea0ebb6fd27a29e8ca5547729",
+  "mode": "P"
+ },
+ "39.pcx": {
+  "w": 320,
+  "h": 200,
+  "pix": "ba5419a8c3cc319b30777c6ad7b7ec641c2b79b8",
+  "pal": "64229c3664ee1d4388e5a47b6f68eaaac8c23870",
+  "mode": "P"
+ },
+ "40.pcx": {
+  "w": 320,
+  "h": 200,
+  "pix": "dc9ec601436a865dd1f35e005412b437b24b0383",
+  "pal": "64229c3664ee1d4388e5a47b6f68eaaac8c23870",
+  "mode": "P"
+ },
+ "41.pcx": {
+  "w": 640,
+  "h": 480,
+  "pix": "76dd3aeb8c0dc9c5deb65cc2d921243b54ea8434",
+  "pal": "4b5757ecbef1987dab5d03c41e7b4f2e361a1e72",
+  "mode": "P"
+ }
+}
