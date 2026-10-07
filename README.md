@@ -8,6 +8,7 @@ Demoscene productions from the 1990s, rebuilt to run in a browser from their ori
 | Euphoria | Esteem | 1995 | MS-DOS | [src](https://github.com/gmegidish/demoports/tree/main/Euphoria_by_Esteem) · [run](https://gmegidish.github.io/demoports/Euphoria_by_Esteem/) |
 | Ninja 2 | SCOOP & Melon | 1996 | MS-DOS | [src](https://github.com/gmegidish/demoports/tree/main/Ninja_2_by_Melon_and_Scoop) · [run](https://gmegidish.github.io/demoports/Ninja_2_by_Melon_and_Scoop/) |
 | The Quest of Kahn | Immortals | 1997 | MS-DOS | [src](https://github.com/gmegidish/demoports/tree/main/The_Quest_of_Kahn_by_Immortals) · [run](https://gmegidish.github.io/demoports/The_Quest_of_Kahn_by_Immortals/) |
+| Brother I Can See The Light | Immortals | 1997 | MS-DOS | [src](https://github.com/gmegidish/demoports/tree/main/Brother_I_Can_See_The_Light_by_Immortals) · [run](https://gmegidish.github.io/demoports/Brother_I_Can_See_The_Light_by_Immortals/) |
 
 ## Baygon — Melon Dezign
 
@@ -24,3 +25,7 @@ Demoscene productions from the 1990s, rebuilt to run in a browser from their ori
 ## The Quest of Kahn — Immortals
 
 [![The Quest of Kahn](The_Quest_of_Kahn_by_Immortals/docs/poster.png)](https://gmegidish.github.io/demoports/The_Quest_of_Kahn_by_Immortals/)
+
+## Brother I Can See The Light — Immortals
+
+[![Brother I Can See The Light](Brother_I_Can_See_The_Light_by_Immortals/docs/poster.png)](https://gmegidish.github.io/demoports/Brother_I_Can_See_The_Light_by_Immortals/)
