@@ -41,45 +41,201 @@ node tools/poster.mjs                         # renders docs/poster.png
 
 The port, the tools and this README were written by [Claude Code](https://claude.com/claude-code).
 
-## What is in the executable
+---
 
-`BROTHER.EXE` is three things glued together:
+# How it was made, and how it was unmade
 
-- **A PKLITE-packed DOS loader**, 2.4 KB. Unpacked, it hooks int 21h and runs the program bound behind it. Every file the program opens is served from a table of 31 entries that follows the loader, each 32 bytes, scrambled by subtracting the byte's index. Names match on the basename, so `TEXTURES\SEA.GIF` opens `SEA.GIF`.
-- **The program, `TEST.EXE`**: Watcom C/C++, bound to DOS/4GW, 230 KB of code. The banner calls it the "Immortals Demo System V 1.08".
-- **The data**: `SHPITZ.3DS`, `TENNISB.3DS`, 26 GIFs, and `SCENE1.3DS`, the creature scene of The Quest of Kahn, which nothing loads.
+## Eight hours
 
-The program is the engine of [The Quest of Kahn](../The_Quest_of_Kahn_by_Immortals/), Immortals' demo from four months earlier, and the port starts from that port's code. About 160 functions are instruction for instruction the same, among them every rasteriser and the keyframer. What changed:
+`READ.ME`, written by Kombat at 14:58 on the last day of 1997, tells it. Immortals came to The Movement '97 to finish a demo they had been working on. Thor's hard disk was stolen at the party, "and all the scenes/textures/whatever was gone". Two days later, about eight hours before the deadline, they sat down with a tune Thor had tracked and wrote another one. It won.
 
-- **The scene loader** reads the material from the object's name case-insensitively and with new suffixes, gives every mesh vertex normals, keeps a palette per material, and no longer loads a flare picture of its own.
-- **Animation** moves hidden meshes into view space too. The tennis part depends on it: its player is a set of hidden meshes, drawn vertex by vertex as flares.
-- **Small numeric changes**: the environment map scales by 127 on both axes; the ease of a key divides by a double; the last tangent of a rotation track gets an extra term on its w component; one shade filler draws one row and one column more than Kahn's.
-- **Sync**: the parts no longer count seconds. They ask MIDAS for the song position and row and switch on them. The module plays a row every 50 ms and a 128-row pattern every 6.4 s, without a tempo change.
-- **New 2D effects**: three parts draw the screen as a 40x25 grid of 8x8 cells, two textured triangles each, with texture coordinates and a shade computed only at the 41x26 corners. For the swirl the corners come from polar tables, for the tunnel and the fur planes each corner is a raytraced point.
+The same file lists what is in it: "some raytracing, freedirection-tunnels, raytracing-planes, recursive stuff, some 3d engine", and a particle system that was not used because the deadline was five minutes ago. The demo was left in its party version. The exit message says "A 6 Hours production" and "Final Version (I hope :)".
 
-## The parts
+## One file, a loader and a demo
 
-Times are from the start of the music.
+`BROTHER.EXE` is 1,106,753 bytes. It starts like a small DOS program:
 
-| Time | Part | Code |
+```
+00000000: 4d5a 5801 0500 0100 0200 6b01 ffff 9e00   MZX.......k.....
+00000020: b8d8 01ba 9400 0500 003b 0602 0073 1a2d   .........;...s.-
+00000050: cd20 4e6f 7420 656e 6f75 6768 206d 656d   . Not enough mem
+```
+
+Five pages, 2,392 bytes, and the entry code of PKLITE. Nothing unpacks it on disk, so it was run in an emulator until it had unpacked itself (`tools/re/unstub.py`). What comes out is a small loader that carries the message `Executing internal subfile...` and hooks int 21h. Every DOS call the program behind it makes to open (`3D`), read (`3F`), seek (`42`), close (`3E`) or execute (`4B`) a file goes through it first.
+
+Right after the loader's 2,392 bytes:
+
+```
+00000958: 584c 0282 0000 0000 1f00 0100 1000 0000   XL..............
+```
+
+`XL`, a count of 0x1F, a table at offset 0x10. The table is 31 entries of 32 bytes: a 16-byte name, a size, an offset. It is scrambled, barely: byte *i* of the table is stored plus *i*. The loader undoes it once, at start-up:
+
+```asm
+sub es:[si], bl
+inc bl
+inc si
+loop ...
+```
+
+When the program opens a file, the loader cuts the path after its last `\` or `:`, upper-cases it, and looks for it in the table. Found: the open succeeds, and reads come from inside `BROTHER.EXE`. So the 3D loader can ask for `TEXTURES\SEA.GIF` and get `SEA.GIF`. Nothing is ever written to disk. The loader's last job is to execute one of its own entries, `TEST.EXE`, the demo.
+
+| Entries | What |
+|---|---|
+| `TEST.EXE` | the demo: a DOS/4GW program, 339,863 bytes |
+| `SHPITZ.3DS`, `TENNISB.3DS` | the two 3D Studio scenes |
+| `SCENE1.3DS` | The Quest of Kahn's creature scene. Nothing loads it |
+| 26 GIFs | 19 used; `ASHSEN`, `BURGUL`, `CHECKER2`, `CLOUD`, `CREAT`, `FOOD`, `FLARE1` are not |
+| `_____XLC@SRT` | 141 bytes the loader keeps for itself; not traced |
+
+The music, `BICSTL.XM`, ships next to the executable.
+
+## The engine from four months earlier
+
+`TEST.EXE` is a Watcom C/C++ linear executable for DOS/4GW. Two objects:
+
+```
+object 1   base 0x10000   0x38861 bytes   code
+object 2   base 0x50000   0x109F0 bytes   data
+```
+
+8,246 fixups, all 32-bit offsets. Resolve them, disassemble from the entry point and from every code address a fixup produces, and `main` is easy to find by its strings. It prints a banner in text mode:
+
+```
+]  Immortals Demo System V 1.08
+]  Kicking MIDAS  -  Hmm, It Looks Alive
+]  Hack IDS, load data be4 entering mode, Bpp=1
+]  Hang on, loading/calculating/doing magic
+```
+
+then calls seven loaders, sets 320x200, starts the music and calls six parts.
+
+Four months earlier the same group had won The Ritual '97 with *[The Quest of Kahn](../The_Quest_of_Kahn_by_Immortals/)*, already ported in this repository. Its executable was disassembled the same way, so every function of one was compared with every function of the other by instruction sequence, addresses masked out:
+
+| Match | Functions |
+|---|---|
+| Identical | 161 |
+| Same instructions, different operands | 9 |
+| Neither | 77 |
+
+The identical ones include every hand-written rasteriser, the 3D Studio chunk readers, the keyframer's splines, the matrix and quaternion helpers and the MIDAS player. The "neither" are mostly the six new parts. So the port starts from the Kahn port's engine, and six readers went through the executable looking for what changed. Each wrote its slice down as pseudo-code, in `docs/disassembly/`.
+
+## What changed in the engine
+
+Little, and all of it matters.
+
+**Object names.** 3D Studio objects carry their material in their name, `Sphere,prs`, `obj,env3`. Kahn matched `prs` and `PRS` but not `Prs`. Brother upper-cases the name first, and has more suffixes: `PRS` is perspective-mapped, `ENV` environment-mapped, `CUL` two-sided, and `SPC`, `GOR`, `ZER`, `TRN` exist for drawers this demo never calls. The bits were renumbered on the way.
+
+**Hidden meshes.** Kahn did not move a hidden mesh into view space. Brother does. The tennis scene depends on it: every mesh of the player, the racket and the balls is flagged hidden in the `.3DS` file, so the sorter drops their faces, and the part then puts an additive flare on each of their vertices, 8 to 169 per mesh. The player is a cloud of light because his faces are never drawn.
+
+**Numbers.** Environment mapping scales the normal by 127 on both axes (Kahn: 128 and 127). The ease of a key divides by the sum of two floats as a double, not as a float. The tangent at the last key of a rotation track gets an extra term on its w component only, `- 0.25 × (last.w - thirdLast.w)`; the engine reader confirmed it by running both executables' keyframers side by side in an emulator.
+
+**One filler.** The shade filler, which re-colours pixels already drawn through a 64 KB table, was reported identical to Kahn's: similarity 1.00. Rounded. Two instructions differ:
+
+```asm
+inc word [0x5303c]        ; Brother: draw the flat bottom row too
+add eax, 1                ; Brother: span width +1 (Kahn: add eax, 0xffff0001)
+```
+
+Without them, every 8x8 cell of the tunnel has a lighter seam along its last row and column. The reader that found it had run the whole tunnel part in an emulator and compared its frames with the recording.
+
+## No seconds, only rows
+
+Kahn's parts counted ticks of a 100 Hz timer. Brother's ask MIDAS where the song is:
+
+```c
+MIDASgetPlayStatus(&status);
+[0x584ac] = status.position;   // index in the order list
+[0x584b4] = status.row;
+```
+
+and switch on it. Part 1 shows a credit picture whenever the row is a multiple of 32. The 3D parts cut to the other camera on row 0 of every new position. A part ends when the position passes its last.
+
+`BICSTL.XM` never changes tempo: speed 2, 100 BPM, so a row is 2 × 2.5 / 100 = 50 ms, and most patterns are 128 rows, 6.4 s. The port reads the module's order list and patterns itself (`src/xm.js`) and turns the music's playing time into a position and a row. The table it builds makes the song 4:35.2 long, as libopenmpt does.
+
+| Song position | Time | Part |
 |---|---|---|
-| 0:00 | Bars, the Immortals logo, the credits, "Brother I can see the LIGHT" | `0x1128f` |
-| 0:38.4 | A polar swirl of `2D3.GIF`; from 0:51.2 with thirty flares | `0x12cc2` |
-| 1:04.0 | The spiked star, `SHPITZ.3DS`, four camera cuts | `0x13559` |
-| 1:29.6 | The tunnel, four textures, pictures pasted into themselves | `0x122b0` |
-| 1:55.2 | The tennis player, `TENNISB.3DS`, as a cloud of flares | `0x13933` |
-| 2:20.8 | Two fur planes, raytraced and fogged | `0x130f7` |
-| 2:46.4 | The title, `BROTHER.GIF`; picture and music fade out from 2:52.8 | `0x130f7` |
-| 2:55.8 | "The End!" in text mode | `0x100fe` |
+| 0 | 0:00 | Bars, the logo, the credits, "Brother I can see the LIGHT" |
+| 6 | 0:38.4 | A polar swirl of `2D3.GIF`; at position 8, thirty flares |
+| 10 | 1:04.0 | The spiked star, `SHPITZ.3DS`; a camera cut at 11, 12, 13 |
+| 14 | 1:29.6 | The tunnel, a phase per position, 14 to 17 |
+| 18 | 1:55.2 | The tennis player, `TENNISB.3DS`; cuts at 19 to 23 |
+| 24 | 2:20.8 | Two fur planes |
+| 28 | 2:46.4 | The title, `BROTHER.GIF`; from position 29, picture and music fade out |
+| | 2:55.8 | "The End!" |
 
-## How it was read
+The timers are still there. Fades and the 3D animations run on one of them, zeroed at the start of each part. The swirl, the cut flashes, the flight down the tunnel and the turn of the fur planes run on the other. That one is never zeroed by the part that uses it, but by the part before: the last frame of the star part resets it as it cuts on position 14, and that becomes the tunnel's clock.
 
-1. Run the packed loader in an emulator until it has unpacked itself, and read its int 21h handler to find the file table (`tools/re/unstub.py`, `tools/re/extract.py`).
-2. Unpack the DOS/4GW program and disassemble it (`tools/re/le.py`, `tools/re/kdis.py`). Match every function against The Quest of Kahn's executable by instruction sequence: identical, same shape, or nearest.
-3. Record the original. DOSBox Staging, Sound Blaster 16, video capture: 175 s of 320x200 frames in exact 6-bit colours.
-4. Read the executable in six slices: start-up and part 1, part 2, part 4, the three 3D parts, the engine's differences from Kahn, and the polygon drawers. Each is written down as pseudo-code in `docs/disassembly/`, and each reader checked its reading against frames of the recording. The engine reader ran the keyframer of both executables side by side in an emulator. The tunnel reader ran the whole part in an emulator and matched it to the recording pixel for pixel; that is how the shade filler's two different instructions were found.
-5. Port from the notes. Each part of the original is a JavaScript generator that yields once per frame. The machine's clock is the music's: the song position and row come from a table of row start times read from `BICSTL.XM`.
-6. Compare with the recording moment by moment (`tools/re/compare.py`).
+## A grid of 8x8 cells
+
+Three parts share a trick. They do not compute every pixel. They compute 41x26 corners, eight pixels apart, and draw the screen as 40x25 cells, each two textured triangles with Kahn's affine filler: 2,000 triangles a frame. The corners of a cell are at +0 and +7, the filler draws both edges of every span, and the cells tile the screen with no gaps.
+
+**The swirl.** A table built at load time holds each corner's distance and angle from the centre:
+
+```
+radius = sqrt(dx² + dy² + 1) × 8.17
+angle  = atan2(dy, dx) in 0..2π, with π = 3.141592687
+```
+
+That π is the executable's, not quite Math.PI. Per frame, with a = ticks × 0.0098 and s = sin a:
+
+```
+u = radius × cos(s - angle) × 4 × s + 512 sin a + 256
+v = radius × sin(s - angle) × 4 × s + 512 cos a + 256
+```
+
+The zoom is proportional to s. Every 3.2 s s crosses zero, every corner collapses onto the same texel, and for a frame the screen is a mosaic of flat 8x8 squares.
+
+**The flares.** Thirty flares follow 3D Studio splines of ten random keys each. The keys come from the C runtime's `rand()`, seeded with 1. They are the only two calls to `rand` in the program, so every run of the demo draws the same flares, and so does the port.
+
+**The tunnel.** Each corner is a ray from the eye, turned by a matrix of three angles, intersected with a cylinder of radius √70000 around the z axis. The quadratic has two roots, and the code takes the smaller one: the wall behind the eye. The eye flies down the tunnel at 270 units a second; the texture's u is the distance along it, v the angle around it, and the shade falls with the distance from the eye. The angle is scaled by 0.318309882798629, which is close to 1/π but is not the double nearest to it. With 1/π, one corner in 20,000 lands on another texel.
+
+Then the tunnel pastes the screen into itself. A sub-picture is every third pixel of every third row, a 106x66 copy, written into the same buffer it reads from. Later rows of the copy read rows the copy already wrote, and calling it eight times in a row nests the picture inside itself. That is the "recursive stuff". A copy into a separate buffer would not nest; the port does it in place, as the original does.
+
+**The fur planes.** The same rays, intersected with two planes, y = -200 and y = +200, textured with `FUR.GIF` by their x and z, fogged to black 3,150 units away.
+
+## Bugs, kept
+
+**Black before white.** Every part opens with a fade from white:
+
+```
+DAC = trunc(p + (64 - p) × t)
+```
+
+64, not 63. On the first frame t is 1.0, every channel comes out as 64, and the VGA DAC keeps six bits of it: 0. So each fade from white starts with a black frame. The recording shows them, and so does the port.
+
+**The first row.** The sub-picture copy clips at the top of the screen, and when it does, its first visible row reads source row 0 instead of the row it should. Kept.
+
+**The bars.** The opening bars fade by 0.999995 on every pass of a busy loop. Their speed was the CPU's. In the recording that was about 190,000 passes a second, a fade of 0.95 per second, and the port fades them by time at that rate.
+
+## Measuring the original
+
+The original was run in DOSBox Staging, a Sound Blaster 16 at 44.1 kHz, with video capture started before the demo. MIDAS detects the card by itself. The capture holds 175 s of 320x200 frames in exact 6-bit colours, and the audio.
+
+Comparing frames turned up a clock problem. In the recording, MIDAS reports each new song position before its audio is heard: by about 0.1 s at the start and 0.5 s by the end. The 100 Hz timer drifts against both. That is the emulator, not the demo: on a real PC all three count real time. So the port runs everything, positions, rows and both timers, on the music's clock, and the comparison tools pair each moment of the song with the moment of the recording that shows it (`tools/re/compare.py`). The pairing is not one formula: parts that run on the timer line up with one offset, parts that run on the row with another.
+
+With that, the 2D parts match the recording pixel for pixel, and the 3D parts match in all but a few dozen of 64,000 pixels: perspective-mapped texels that land on their neighbour. The x87 keeps intermediate results in 80 bits where JavaScript has 64, and a texel boundary is a sharp place to feel it.
+
+## The text screens
+
+The demo begins and ends in text mode, and so does the port. At the start, the banner, printed one `cout` at a time. At the end, `main` switches to mode 3 and prints its goodbye without a newline after "The End!":
+
+```
+The End!Brother I can see the light, Immortals 1997
+A 6 Hours production
+Final Version (I hope :)
+
+
+C:\>_
+```
+
+The port draws them with the VGA ROM font, 9x16 cells, as the recording shows them.
+
+## How the port works
+
+Each part of the original is a loop that spins as fast as the machine allows and checks the song position. In the port each is a JavaScript generator that yields once per frame. Before each frame the page sets the machine's time from the music's `currentTime`; position, row and both timers are read from it. The original ran its loops thousands of times a second and could not miss a row; a frame can, so the port tests "reached" where the original tested "equal".
+
+Seeking works by starting over and jumping. A part that is over falls through at once, and a part zeroes its timers at the row where the original would have zeroed them, so a jump lands where continuous play would be. After a jump the keyframer and the flare splines are evaluated a few extra times: their cursors move one key per call.
 
 ## What is verified, and what is not
 
