@@ -1,0 +1,118 @@
+##############################################################################
+#
+#			(C)1995 by SCOOP Productions
+#
+# Program : NINJA
+#
+# Author : Einar Ingebrigtsen
+#
+# Created : 15.11.95
+#
+# Purpose : NINJA Demo 2
+#
+# Notes :
+#
+##############################################################################
+
+
+.HOLD
+
+# Declarations ###############################################################
+DEST		= ninja    			# Destination Project(EXEC.)
+SRC_PATH	= .				# Source Path
+CPPFLAGS  	= -oneatx /zq -4r    		# C++ Flags
+CPP       	= wpp386			# C++ Compiler
+CFLAGS  	= -oneatx /zq -4r -d__WC32__ #/zq -d0 -zdp -zu -dDEBUG # C Flags
+C		= wcc386			# C Compiler
+AFLAGS		= /ic:\asm\include /ml    	# Assembler Flags
+ASM	  	= tasm				# Assembler
+#LFLAGS		= D all OP q			# Linker Flags
+LFLAGS		= SYSTEM pmodew OP q		# Linker Flags
+
+LINK		= wlink				# Linker
+VFLAGS		= -x_
+VCS		= co				# RCS Check out
+
+PMODEW		= c:\asm\pmodew.lnk		# Pmode interface, link file
+
+# Directories ################################################################
+OBJ		= objects\			# Objects directory
+LIB		= libs\				# Libraries directory
+INC		= include\;graphics\;models\	# Include directory
+RCS		= rcs\
+DEMO		= include\
+
+# Object List ################################################################
+
+# DEMO #
+OBJECTS		= $(OBJ)ninja.obj &
+		  $(OBJ)ninjac.obj &
+		  $(OBJ)depack.obj
+
+# Library List ###############################################################
+LIBS		= $(LIB)mdsswc32
+
+# Extensions #################################################################
+.EXTENSIONS:
+.EXTENSIONS: .exe .obj .a .cc .c .h .a_ .cc_ .c_ .h_ .lnk
+
+
+# Project ####################################################################
+project : $(DEST).exe .SYMBOLIC
+	  @echo.
+	  @echo Done...
+
+
+# Rules ######################################################################
+
+.A_	: .\;utils\;rcs\;utils\rcs\
+.A_.A  	:
+	$(VCS) -x_ $^&.A
+
+.C_	: .\;utils\;rcs\;utils\rcs\
+.C_.C  	:
+	$(VCS) -x_ $^&.C
+
+.H_	: .\;utils\;rcs\;utils\rcs\
+.H_.H  	:
+	$(VCS) -x_ $^&.H
+
+.CC_	: .\;utils\;rcs\;utils\rcs\
+.CC_.CC	:
+	$(VCS) -x_ $^&.CC
+
+
+.A	: .\;utils\
+.A.OBJ 	:
+	$(ASM) $(AFLAGS) /iinclude /igraphics\ /imodels\ $[*.A $(OBJ)$^&.OBJ
+
+.CC	: .\;utils\
+.CC.OBJ :
+	$(CPP) $(CPPFLAGS) -i=$(INC) -fo=$(OBJ)$^&.OBJ $[*.CC
+
+.C	: .\;utils\
+.C.OBJ 	:
+	$(C) $(CFLAGS) -i=$(INC) -fo$(OBJ)$^&.OBJ $[*.C
+
+# Dependencies ###############################################################
+
+# DEMO #
+$(OBJ)ninja.obj	  : ninja.a
+$(OBJ)ninjac.obj  : ninjac.c $(DEMO)depack.h
+$(OBJ)depack.obj  : depack.c $(DEMO)lzw2.h
+
+# DEMO Executable ############################################################
+$(DEST).exe : .autodepend &
+ 	      $(OBJECTS)
+
+#	@%write $(dest).lnk debug all
+	@%write $(dest).lnk
+	@%append $(dest).lnk $(LFLAGS)
+	@%append $(dest).lnk name $(dest).exe
+	@for %i in ($(OBJECTS)) do @%append $(dest).lnk file %i
+
+
+# Link Demo ##################################################################
+ 	*$(LINK) @$(PMODEW) @$(dest).lnk LIB $(LIBS)
+#@$(midas).lnk
+

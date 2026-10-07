@@ -1,0 +1,40 @@
+		.486p
+		locals $$
+
+_data 	segment public use32 'data'
+
+		assume cs:_data, ds:_data
+
+		public	GetChunkPos_
+
+GetChunkPos_ proc
+		pushad
+		pushfd
+		mov ebp,eax			;Temporary storage of BUFFER
+$$loop1:
+		mov esi,[eax]			;Get DOUBLE WORD, chunk name
+		cmp esi,edx			;Check if name is correct
+		jne $$next_chunk		;If not, next position
+		mov ebx,eax			;found : get address
+		sub ebx,ebp			;figure out offset
+		mov CPos,ebx			;Store TEMP
+		popfd
+		popad
+		mov eax,CPos			;Return offset in EAX
+		ret
+$$next_chunk:					; - NO DICE -
+		inc eax				;Next position
+		dec ebx				;Decrease length of buffer
+		jne $$loop1			;Jump If Not Equal.. LOOP!
+		popfd
+		popad
+		mov eax,0			;Return 0
+		ret
+GetChunkPos_ endp
+
+CPos		dd 0
+
+_data 	ends
+
+end
+

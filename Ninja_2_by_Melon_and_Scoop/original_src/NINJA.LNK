@@ -1,0 +1,6 @@
+
+SYSTEM pmodew OP q
+name ninja.exe
+file objects\ninja.obj
+file objects\ninjac.obj
+file objects\depack.obj

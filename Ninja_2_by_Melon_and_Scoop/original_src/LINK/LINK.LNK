@@ -1,0 +1,5 @@
+debug all
+SYSTEM pmodew D all OP q
+name link.exe
+file objects\link.obj
+file objects\iff.obj

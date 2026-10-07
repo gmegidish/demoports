@@ -1,0 +1,1619 @@
+		.486p
+		locals $$
+
+_data 	segment public use32 'data'
+
+		assume cs:_data, ds:_data
+
+		;-----------
+		;- Publics -
+		;-----------
+		public	DrawLayerVert_		;Horizontal layer routine
+		public	DrawLayerHor_		;Vertical layer routine
+		public	DrawFog_		;Horizontal transparent layer
+		public	BitmapZoom_
+		public	MotionBlurr_
+		public	Initialize_Asm_		;Initialize all asm varibles
+		public	ShowScreen_		;Show virtual screen
+		public	SetPalette_		;SET BMP palette
+		public	DepackILBM_
+		public	ILBM_Palette_
+		public	ILBM_GetXSize_
+		public	ILBM_GetYSize_
+
+		public	Sprite_Draw_		;Drawing of a sprite
+
+		public	timer_Initialize_	;Initialize timer
+		public	timer_DeInitialize_	;Deinitialize timer
+		public  timer_GetTime_		;Get time in MS.
+
+		public	VBlank_
+		public	VerticalBlank_
+		public	ResetPalette_
+		public	Pentium_InitCycle_
+		public	Pentium_GetCycle_
+
+		hires	=	0		;1 enables 640*480*256
+		mcga	=	0		;1 enables 320*200*256
+		vscr	=	0		;1 enables VIRTUAL SCREEN system
+		vga	=	0		;1 enables 640*480*16
+		ega	=	0		;1 enables 320*200*16
+		txt	=	0		;1 enables text-mode 80*25
+		twk	=	0		;1 enables tweaked mode
+		dbl	=	0		;1 enables double Y resolution
+		pal	=	0		;1 enables reset-palette function
+		hor	=	0		;1 enables horizontal tweak
+
+		_3d	=	0		;1 enables 3d library to be used
+
+		;-------------
+		;- Constants -
+		;-------------
+		foca    	equ 280			;Eye distance
+		zzz		equ 500			;Zoom factor
+		mx		equ 160			;X middle
+		my		equ 100			;Y middle
+
+		FREQ		equ 70
+
+
+		;--------------
+		;- Structures -
+		;--------------
+		s_Screen	equ 0
+		s_Sizeof	equ 4
+
+		s_xscreen1	equ 0
+		s_yscreen1	equ 4
+		s_xscreen2	equ 8
+		s_yscreen2	equ 12
+		s_modulo	equ 16
+		s_xflip		equ 20
+		s_yflip		equ 24
+		s_xsize		equ 28
+		s_ysize		equ 32
+		s_sizeof	equ 36
+
+		dr_screen	equ 0
+		dr_sprite	equ 4
+		dr_xscreen1	equ 8
+		dr_yscreen1	equ 12
+		dr_xscreen2	equ 16
+		dr_yscreen2	equ 20
+		dr_modulo	equ 24
+		dr_xpos		equ 28
+		dr_ypos		equ 32
+		dr_vsprite	equ 36
+		dr_xflip	equ 40
+		dr_yflip	equ 44
+		dr_xsize	equ 48
+		dr_ysize	equ 52
+		dr_sizeof	equ 56
+
+		z_bitmap	equ 0
+		z_xpos		equ 4
+		z_ypos		equ 8
+		z_scalex	equ 12
+		z_scaley	equ 16
+		z_sxpos		equ 20
+		z_sypos		equ 24
+		z_ycount	equ 28
+		z_y		equ 32
+		z_yadd		equ 36
+		z_sizeof	equ 40
+
+		;-----------------;
+		;- Include files -;
+		;-----------------;
+		include		vga.32
+
+;±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+;±
+;± Synopsis	:
+;±
+;± Author	: Einar Ingebrigtsen
+;±
+;± Input	: NONE
+;±
+;± Output	: NONE
+;±
+;± Function	:
+;±
+;±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+
+
+;±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+;±
+;± Synopsis	: init_256
+;±
+;± Author	: Einar Ingebrigtsen
+;±
+;± Input	: NONE
+;±
+;± Output	: NONE
+;±
+;± Function	: To initialize the VGA for 320x256 resolution.
+;±
+;±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+init_256 proc near
+		mov dx,3c0h
+		mov esi,offset regset
+		mov dl,0c2h
+		outsb
+		mov dl,0c4h
+		outsw
+		mov ecx,feed_3d4_length
+		mov dl,0d4h
+		rep outsw
+		ret
+init_256 endp
+
+;±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+;±
+;± Synopsis	: ShowScreen_
+;±
+;± Author	: Einar Ingebrigtsen
+;±
+;± Input	: NONE
+;±
+;± Output	: NONE
+;±
+;± Function	: To transfer a 320x256 screen to VGA, and show it.
+;±		  Automatically changes BUFFER.
+;±
+;±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ShowScreen_ proc
+		pushad
+		pushfd
+		xor eax,eax
+		mov ax,posi
+		xor ax,(80*256)
+		mov sadder,eax
+		mov length,320*256
+
+		mov dx,3c4h
+		mov ax,0102h
+		out dx,ax
+		mov esi,screen
+		mov edi,0a0000h
+		add edi,sadder
+		mov ecx,length
+		shr ecx,4
+		mov ecx,256
+
+		xor eax,eax
+$$loop1:
+
+rept		20
+		mov al,[esi+8]
+		mov ah,[esi+12]
+		shl eax,16
+		mov al,[esi]
+		mov ah,[esi+4]
+		add esi,16
+		mov [edi],eax
+		add edi,4
+endm
+		dec ecx
+		jne $$loop1
+
+		mov dx,3c4h
+		mov ax,0202h
+		out dx,ax
+		mov esi,screen
+		inc esi
+		mov edi,0a0000h
+		add edi,sadder
+		mov ecx,length
+		shr ecx,4
+		mov ecx,256
+		xor eax,eax
+$$loop2:
+
+rept		20
+		mov al,[esi+8]
+		mov ah,[esi+12]
+		shl eax,16
+		mov al,[esi]
+		mov ah,[esi+4]
+		add esi,16
+		mov [edi],eax
+		add edi,4
+endm
+		dec ecx
+		jne $$loop2
+
+		mov dx,3c4h
+		mov ax,0402h
+		out dx,ax
+		mov esi,screen
+		add esi,2
+		mov edi,0a0000h
+		add edi,sadder
+		mov ecx,length
+		shr ecx,4
+		mov ecx,256
+		xor eax,eax
+$$loop3:
+
+rept		20
+		mov al,[esi+8]
+		mov ah,[esi+12]
+		shl eax,16
+		mov al,[esi]
+		mov ah,[esi+4]
+		add esi,16
+		mov [edi],eax
+		add edi,4
+endm
+		dec ecx
+		jne $$loop3
+
+		mov dx,3c4h
+		mov ax,0802h
+		out dx,ax
+		mov esi,screen
+		add esi,3
+		mov edi,0a0000h
+		add edi,sadder
+		mov ecx,length
+		shr ecx,4
+		mov ecx,256
+		xor eax,eax
+$$loop4:
+
+rept		20
+		mov al,[esi+8]
+		mov ah,[esi+12]
+		shl eax,16
+		mov al,[esi]
+		mov ah,[esi+4]
+		add esi,16
+		mov [edi],eax
+		add edi,4
+endm
+		dec ecx
+		jne $$loop4
+
+		xor posi,(80*256)
+
+		mov ax,posi
+		pos ax
+		popfd
+		popad
+		ret
+ShowScreen_ endp
+
+;±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+;±
+;± Synopsis	: DrawLayerVert_
+;±
+;± Author	: Einar Ingebrigtsen
+;±
+;± Input	: EAX - Pointer to layer
+;±		  EDX - Y position of layer.
+;±
+;± Output	: NONE
+;±
+;± Function	: To draw a vertical scrollable layer.
+;±
+;±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+DrawLayerVert_ proc
+		pushad
+		pushfd
+		mov esi,eax
+	;	shr edx,2
+		mov eax,edx
+		mov ebx,320
+		mul ebx
+		add esi,eax
+		mov edi,screen
+		;mov ecx,320*256
+		mov ecx,256
+		dec edi
+$$loop1:
+
+rept		320
+ 	local	no_pixel
+		inc edi
+		mov dl,[esi]
+		inc esi
+		cmp dl,0
+		je no_pixel
+		mov [edi],dl
+no_pixel:
+endm
+		dec ecx
+		jne $$loop1
+		popfd
+		popad
+		ret
+DrawLayerVert_ endp
+
+;±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+;±
+;± Synopsis	: DrawLayerHor_
+;±
+;± Author	: Einar Ingebrigtsen
+;±
+;± Input	: EAX - Pointer to layer
+;±		  EDX - X position of layer.
+;±		  EBX - X size of layer
+;±		  ECX - Y position of layer
+;±
+;± Output	: NONE
+;±
+;± Function	: To draw a Horizontal/Vertical scrollable layer.
+;±
+;±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+DrawLayerHor_ proc
+		pushad
+		pushfd
+
+		mov YPos,ecx
+
+		mov ecx,ebx
+		mov esi,eax
+		add esi,edx
+		mov edi,screen
+		mov eax,YPos
+		mov ebx,320
+		mul ebx
+		add edi,eax
+		mov ebp,320
+		mov ebx,256
+		dec edi
+$$loop1:
+
+rept	320
+	local	no_pixel
+		inc edi
+		mov dl,[esi]
+		inc esi
+		cmp dl,0
+		je no_pixel
+		mov [edi],dl
+no_pixel:
+
+endm
+
+
+;		dec ebp
+;		jne $$loop1
+;		mov ebp,320
+		mov eax,ecx
+		sub eax,320
+		add esi,eax
+		dec ebx
+		jne $$loop1
+		popfd
+		popad
+		ret
+DrawLayerHor_ endp
+
+;±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+;±
+;± Synopsis	: DrawFog_
+;±
+;± Author	: Einar Ingebrigtsen
+;±
+;± Input	: EAX - Pointer to layer
+;±		  EDX - X position of layer.
+;±		  EBX - X size of layer
+;±		  ECX - Y position of layer
+;±
+;± Output	: NONE
+;±
+;± Function	: To draw a Horizontal/Vertical scrollable transparent layer.
+;±
+;±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+DrawFog_ proc
+		pushad
+		pushfd
+
+		mov YPos,ecx
+
+		mov ecx,ebx
+		mov esi,eax
+		add esi,edx
+		mov edi,screen
+		mov eax,YPos
+		mov ebx,320
+		mul ebx
+		add edi,eax
+		mov ebp,320
+		mov ebx,256
+		dec edi
+$$loop1:
+
+rept	320
+	local	no_pixel
+		inc edi
+		mov dl,[esi]
+		inc esi
+		cmp dl,0
+		je no_pixel
+		add dl,16
+		add [edi],dl
+no_pixel:
+endm
+;		dec ebp
+;		jne $$loop1
+;		mov ebp,320
+		mov eax,ecx
+		sub eax,320
+		add esi,eax
+		dec ebx
+		jne $$loop1
+		popfd
+		popad
+		ret
+DrawFog_ endp
+
+
+BitmapZoom_ proc
+		pushad
+		pushfd
+		sub esp,z_sizeof
+
+		mov ebx,z_bitmap[eax]
+		mov z_bitmap[esp],ebx
+		mov ebx,z_xpos[eax]
+		mov z_xpos[esp],ebx
+		mov ebx,z_ypos[eax]
+		mov z_ypos[esp],ebx
+		mov ebx,z_scalex[eax]
+		mov z_scalex[esp],ebx
+		mov ebx,z_scaley[eax]
+		mov z_scaley[esp],ebx
+		mov ebx,z_sxpos[eax]
+		mov z_sxpos[esp],ebx
+		mov ebx,z_sypos[eax]
+		mov z_sypos[esp],ebx
+
+		cmp dword ptr z_scaley[esp],256
+		jle $$nn5
+		mov ebx,256
+		jmp $$nn6
+$$nn5:
+		mov ebx,z_scaley[esp]
+$$nn6:
+		mov z_ycount[esp],ebx
+
+		mov dword ptr z_y[esp],eax
+
+		mov eax,256
+		sal eax,16
+		mov ebx,z_scaley[esp]
+		cmp ebx,0
+		je $$nn2
+		cdq
+		idiv ebx
+$$nn2:
+		mov z_yadd[esp],eax
+
+		mov eax,320
+		sal eax,16
+		mov ebx,z_scalex[esp]
+		cmp ebx,0
+		je $$nn1
+		cdq
+		idiv ebx
+$$nn1:
+		mov edi,eax
+		mov eax,320
+		mov ebx,z_sypos[esp]
+		mul ebx
+		add eax,z_sxpos[esp]
+		mov ebp,screen
+		add ebp,eax
+
+		mov edx,0
+$$loop2:
+		mov eax,z_ypos[esp]
+		mov ebx,z_yadd[esp]
+		imul ebx
+
+		mov esi,z_bitmap[esp]
+		add eax,z_y[esp]
+		sar eax,16
+		mov ebx,320
+		mul ebx
+		add esi,eax
+
+		mov eax,z_xpos[esp]
+		mov ebx,edi
+		imul ebx
+		mov edx,eax
+
+		cmp dword ptr z_scalex[esp],320
+		jle $$nn3
+		mov ebx,320
+		jmp $$nn4
+$$nn3:
+		mov ebx,z_scalex[esp]
+$$nn4:
+$$loop1:
+		mov ecx,edx
+		sar ecx,16
+		mov al,[esi+ecx]
+		add edx,edi
+	   	cmp al,0
+	   	je $$no_pixel
+		mov [ebp],al
+$$no_pixel:
+		inc ebp
+		dec ebx
+		jne $$loop1
+		mov ebx,z_scalex[esp]
+		cmp ebx,320
+		jle $$nn7
+		mov ebx,320
+$$nn7:
+		mov eax,320
+		sub eax,ebx
+		add ebp,eax
+		;mov edx,0
+		;add esi,320
+		mov eax,z_yadd[esp]
+		add z_y[esp],eax
+		dec dword ptr z_ycount[esp]
+		jne $$loop2
+
+
+		add esp,z_sizeof
+		popfd
+		popad
+		ret
+BitmapZoom_ endp
+
+MotionBlurr_ proc
+		pushad
+		pushfd
+		mov esi,eax
+		mov ecx,320*256
+		mov edi,screen
+$$loop1:
+		mov al,[esi]
+		inc esi
+		add al,[edi]
+		shr al,1
+		mov [edi],al
+		inc edi
+		dec ecx
+		jne $$loop1
+		popfd
+		popad
+		ret
+MotionBlurr_ endp
+
+
+Initialize_Asm_ proc
+		pushad
+		pushfd
+		mov ebx,s_Screen[eax]
+		mov screen,ebx
+		mov ax,13h
+		int 10h
+
+		;call VerticalBlank_
+		;palzer
+		call init_256
+
+		mov edi,screen
+		mov ecx,(320*256)/4
+		mov eax,0
+		cld
+		rep stosd
+
+		mov dx,3c4h
+		mov ax,0f02h
+		out dx,ax
+		mov edi,0a0000h
+		mov eax,0
+		mov ecx,16384
+		cld
+		rep stosd
+
+		popfd
+		popad
+		ret
+Initialize_Asm_ endp
+
+rdtcs macro
+		db 0fh,31h
+endm
+
+Pentium_InitCycle_ proc
+		rdtcs
+		mov tichi,edx
+		mov ticlo,eax
+		ret
+Pentium_InitCycle_ endp
+
+Pentium_GetCycle_ proc
+		rdtcs
+		sub eax,ticlo
+		sub edx,tichi
+		;shrd eax,edx,16
+		ret
+Pentium_GetCycle_ endp
+
+
+
+SetPalette_ proc
+		pushad
+		pushfd
+		mov ebx,eax
+
+		mov al,0
+		mov ah,0ffh
+		mov cl,0
+		mov dl,0
+		mov dh,0
+		bmp_pal
+		popfd
+		popad
+		ret
+
+SetPalette_ endp
+
+timer_Initialize_ proc
+		pushad
+		pushfd
+		mov dx,1193180/FREQ             ;Set frequency to 70Hz
+		mov al,36h                      ;Set function to use(timer)
+		out 43h,al                      ;Send to 8259 chip...
+		mov al,dl                       ;Send LSB to 8259 chip
+		out 40h,al
+		mov al,dh                       ;Send MSB to 8259 chip
+		out 40h,al
+		popfd
+		popad
+		ret
+timer_Initialize_ endp
+
+timer_DeInitialize_ proc
+		pushad
+		pushfd
+		mov dx,0                        ;Set frequency to 18..
+		mov al,34h                      ;Set function to use(timer)
+		out 43h,al                      ;Send to 8259 chip...
+		mov al,dl                       ;Send LSB to 8259 chip
+		out 40h,al
+		mov al,dh                       ;Send MSB to 8259 chip
+		out 40h,al
+		popfd
+		popad
+		ret
+timer_DeInitialize_ endp
+
+
+timer_GetTime_ proc near
+;--------------------------------------------------------------------
+; Function:
+;	Return Time since midnight in milliseconds.
+; Return:
+;	eax = time in msecs since midnight.
+;--------------------------------------------------------------------
+		push ebx
+		push ecx
+		push edx
+		xor eax,eax
+		xor ebx,ebx
+		xor ecx,ecx
+		xor edx,edx
+		int 1ah
+		mov al,0
+		out 43h,al
+		in al,40h
+		in al,40h
+		mov bl,al
+		neg bl
+		shl ecx,24
+		shl edx,8
+		mov eax,ecx
+		add eax,edx
+		add eax,ebx
+		pop edx
+		pop ecx
+		pop edx
+		ret
+
+		push ecx
+		push edx
+		push esi
+		cli
+
+		mov al,00000110b
+		out 43h,al
+
+		xor edx,edx
+		xor eax,eax
+		mov esi,046ch
+		mov eax,[esi]
+		;mov ah,[esi+2]
+		;mov dl,[esi+1]
+		;shl edx,16
+		;or eax,edx
+		;shl eax,8
+		;in al,40h
+		;mov cl,al
+		;in al,40h
+		;in al,40h
+		;push cx
+		;mov cl,0ffh
+		;sub cl,al
+		;mov al,cl
+		;pop cx
+
+		sti
+		pop esi
+		pop edx
+		pop ecx
+		ret
+
+comment|
+		push ebx
+		push ecx
+		push edx
+		push esi
+		push edi
+		pushfd
+		cli
+		mov dx,0020h
+		mov al,0ah
+		out dx,al
+		xor al,al
+		out 43h,al
+		in al,dx
+		mov di,ax
+		in  al,40h
+		mov bl,al
+		in  al,40h
+		mov bh,al
+		not bx
+		in  al,21h
+		mov si,ax
+
+		mov al,0ffh
+		out 21h,al
+
+		mov ax,si
+		mov si,046ch
+		;mov dx,[si]
+		mov edx,[si]	; We do need the hole 4 byte (21 bit) timer loop count since midnight.
+				; 24 hours == 0x1800B0 timer loops (Dos Clock Tics)
+		mov si,ax
+
+		mov ax,si	; Isn't this instruction redundant?
+		out 21h,al
+
+		sti
+		mov ax,di
+		test al,1	; Test what?
+		jz done
+		cmp bx,00ffh
+		ja done
+		;inc dx
+		inc edx		; Inc timer loop count since midnight.
+done:
+		;mov ax,dx
+		;shl eax,16
+		;mov ax,bx
+
+		mov eax, edx	; Prepair timer loop count before division.
+		shr edx, 16
+		shl eax, 16
+		mov ax, bx	; Add timer tics for this loop.
+		mov ecx, 1193	; Divide by Timer frequence /1000. (1193179.97 / 1000)
+		div ecx		; Return Time in msecs since midnight in register eax.
+		popfd
+		pop edi
+		pop esi
+		pop edx
+		pop ecx
+		pop ebx
+		ret
+
+		push ebx
+		push ecx
+		push edx
+		push esi
+		push edi
+		pushfd
+		cli			; Clear all interrupts
+		mov dx,0020h
+		mov al,0ah
+		out dx,al		; Set interrupt states
+		xor al,al		; Enable tick reading
+		out 43h,al		; Send to 8253 timer
+		in al,dx		; Get interrupt state
+		mov di,ax		; Store for future
+		in  al,40h		; Get low byte of ticker
+		mov bl,al
+		in  al,40h		; Get high byte of ticker
+		mov bh,al
+		not bx			; Negate for real tick
+		in  al,21h		; Store interrupts
+		mov si,ax		; Save them..
+
+		mov al,0ffh		; Turn off all interrupts
+		out 21h,al
+
+		mov ax,si		; Get number of TIMER rounds
+		mov si,046ch		; since midnight
+		mov dx,[si]
+		mov si,ax
+
+		mov ax,si		; Restore interrupts
+		out 21h,al
+
+		sti			; Restore ALL interrupts
+		mov ax,di		; Check interrupt state
+		test al,1		; If BIT 1
+		jz $$done			; zero , skip
+		cmp bx,00ffh		; not zero, check for boundary
+		ja $$done		;
+		inc dx			; Make 32 bit..
+$$done:
+		mov ax,dx		; Insert 16 bit DX into EAX
+		shl eax,16
+		mov ax,bx
+		popfd
+		pop edi
+		pop esi
+		pop edx
+		pop ecx
+		pop ebx
+		ret
+		|
+		push ebx
+		push ecx
+		push edx
+		push esi
+		push edi
+		pushfd
+		cli
+		mov dx,0020h
+		mov al,0ah
+		out dx,al
+		xor al,al
+		out 43h,al
+		in al,dx
+		mov di,ax
+		in  al,40h
+		mov bl,al
+		in  al,40h
+		mov bh,al
+		not bx
+		in  al,21h
+		mov si,ax
+
+		mov al,0ffh
+		out 21h,al
+
+		mov ax,si
+		mov si,046ch
+		;mov dx,[si]
+		mov edx,[si]	; We do need the hole 4 byte (21 bit) timer loop count since midnight.
+				; 24 hours == 0x1800B0 timer loops (Dos Clock Tics)
+		mov si,ax
+
+		mov ax,si	; Isn't this instruction redundant?
+		out 21h,al
+
+		sti
+		mov ax,di
+		test al,1	; Test what?
+		jz done
+		cmp bx,00ffh
+		ja done
+		;inc dx
+		inc edx		; Inc timer loop count since midnight.
+done:
+		mov ax,dx
+		shl eax,16
+		mov ax,bx
+
+		mov eax, edx	; Prepare timer loop count before division.
+		shr edx, 16
+		shl eax, 16
+		mov ax, bx	; Add timer tics for this loop.
+		mov ecx, 1193	; Divide by Timer frequence /1000. (1193179.97 / 1000)
+		div ecx		; Return Time in msecs since midnight in register eax.
+		popfd
+		pop edi
+		pop esi
+		pop edx
+		pop ecx
+		pop ebx
+		ret
+timer_GetTime_ endp
+
+Fade_Palette macro
+	local	nn1,nn2
+		push dx
+		push ax
+		cbw
+		mov bx,ax
+		pop ax
+		mov dx,Fade
+
+		add bx,dx
+
+		cmp bx,0
+		jge nn2
+		mov bx,0
+nn2:
+		cmp bx,63
+		jle nn1
+		mov bx,63
+nn1:
+		mov al,bl
+		pop dx
+endm
+
+ILBM_Palette_ proc
+		pushad
+		pushfd
+		mov esi,eax
+		mov NumCols,edx
+		mov ColStart,bl
+
+		mov al,cl
+		cbw
+		mov Fade,ax
+
+   		mov eax,'PAMC'
+   		call ChunkSearch
+
+		mov ah,0
+		mov ecx,NumCols
+palette_loop:
+		mov dx,3c8h
+		mov al,ah
+		add al,ColStart
+		out dx,al
+		inc dx
+		mov al,[esi]
+  		shr al,2
+		Fade_Palette
+		out dx,al
+		mov al,[esi+1]
+  		shr al,2
+		Fade_Palette
+  		out dx,al
+		mov al,[esi+2]
+  		shr al,2
+		Fade_Palette
+		out dx,al
+
+		add esi,3
+		inc ah
+		dec ecx
+		jne palette_loop
+		popfd
+		popad
+		ret
+ILBM_Palette_ endp
+
+DepackILBM_ proc
+		pushad
+		pushfd
+
+		mov ColStart,bl
+		mov destination,edx
+		mov source,eax
+   		mov esi,eax
+
+		cld
+
+		xor eax,eax
+		xor ebx,ebx
+		mov ax,[esi+14h]
+		xchg ah,al
+		mov bx,[esi+16h]
+		xchg bh,bl
+		cdq
+		mul ebx
+		mov FrameSize,eax
+
+		mov esi,source
+		mov eax,'YDOB'
+		call ChunkSearch
+
+		mov edi,destination
+  		mov ebp,FrameSize
+unpack:
+		movzx ecx,byte ptr [esi]	;Get control byte
+		inc esi
+		or cl,cl			;Test control byte
+		jl replicated			;Jump if 'Replicated' ( <0 ),
+						;stay if 'Stored'
+		inc ecx
+		sub ebp,ecx			;Adjust pixel counter
+		jb finished	       		;Exit if all the pixels are out
+storeloop:
+		mov al,[esi]
+		inc esi
+		cmp al,0
+		je $$black
+		add al,ColStart
+$$black:
+    		mov [edi],al
+		inc edi
+		dec ecx
+		jne storeloop
+		jmp unpack
+replicated:
+		neg cl
+		inc ecx
+		sub ebp,ecx			;Adjust pixel counter
+		jb finished			;Exit if all the pixels are out
+
+		mov al,[esi]			;Get pixel
+		inc esi
+		cmp al,0
+		je replicloop
+		add al,ColStart
+replicloop:
+   		mov [edi],al
+		inc edi
+		dec ecx
+		jne replicloop
+
+		jmp unpack
+finished:
+		mov eax,edi
+		sub eax,destination
+		mov FrameSize,eax
+		popfd
+		popad
+
+		mov eax,FrameSize
+		ret
+ChunkSearch:
+		dec esi
+search_loop:
+		inc esi
+		cmp [esi],eax
+		jne search_loop
+
+		add esi,4
+		xor ebx,ebx
+		mov bx,word ptr [esi+2]
+		xchg bh,bl
+		mov ebp,ebx
+		add esi,4
+		ret
+DepackILBM_ endp
+
+ILBM_GetXSize_ proc
+		push esi
+		mov esi,eax
+		xor eax,eax
+		mov ax,[esi+14h]
+		xchg ah,al
+		pop esi
+		ret
+ILBM_GetXSize_ endp
+
+ILBM_GetYSize_ proc
+		push esi
+		mov esi,eax
+		xor eax,eax
+		mov ax,[esi+16h]
+		xchg ah,al
+		pop esi
+		ret
+ILBM_GetYSize_ endp
+
+Sprite_Draw_ proc near
+		pushad
+		pushfd
+		sub esp,s_sizeof
+
+;-------------- Initialize variables --------------------------------------------
+		mov ebx,dr_screen[eax]		; Initialize Screen pointer
+		mov screen,ebx
+		mov ebx,dr_sprite[eax]		; Initialize Sprite pointer
+		mov sprite,ebx
+		mov ebx,dr_xscreen1[eax]	; Initialize X screen1 clipping
+		mov s_xscreen1[esp],ebx
+		mov ebx,dr_yscreen1[eax]	; Initialize Y screen1 clipping
+		mov s_yscreen1[esp],ebx
+		mov ebx,dr_xscreen2[eax]	; Initialize X screen2 clipping
+		mov s_xscreen2[esp],ebx
+		mov ebx,dr_yscreen2[eax]	; Initialize Y screen2 clipping
+		mov s_yscreen2[esp],ebx
+		mov ebx,dr_modulo[eax]
+		mov s_modulo[esp],ebx
+		mov ebx,dr_xpos[eax]		; Initialize X position
+		mov xpos,ebx
+		mov ebx,dr_ypos[eax]		; Initialize Y position
+		mov ypos,ebx
+		mov ebx,dr_xflip[eax]		; Set X flip flags
+		mov s_xflip[esp],ebx
+		mov ebx,dr_yflip[eax]		; Set Y flip flags
+		mov s_yflip[esp],ebx
+		mov ebx,dr_vsprite[eax]		; Initialize DEPACK area
+		mov vsprite,ebx
+		mov ebx,dr_xsize[eax]
+		mov s_xsize[esp],ebx
+		mov ebx,dr_ysize[eax]
+		mov s_ysize[esp],ebx
+
+		mov eax,s_xscreen2[esp]		; Check if SPRITE is on screen(X)
+		cmp xpos,eax
+		jge $$no_sprite			; If outside, skip sprite
+		mov eax,s_yscreen2[esp]		; Check if SPRITE is on SCREEN(Y)
+		cmp ypos,eax
+		jge $$no_sprite			; If outsize, skip sprite
+
+		mov eax,s_xsize[esp]		; Get sprite X size
+		add eax,xpos			; Add on X position
+		cmp eax,s_xscreen1[esp]		; Check if Xsprite<0,
+		jl $$no_sprite			; then skip..
+
+		mov eax,s_ysize[esp]
+		add eax,ypos
+		cmp eax,s_yscreen1[esp]
+		jl $$no_sprite
+
+		mov edi,vsprite			; Pointer to DEPACK AREA
+
+		xor ebx,ebx
+		xor edx,edx
+
+;-------------- Draw Sprite -----------------------------------------------------
+		mov edi,screen			; Get screen position
+		add edi,xpos			; Add on the X position
+		dec edi				; We start at -1
+
+;-------------- Do clipping -----------------------------------------------------
+		mov ecx,s_xsize[esp]
+		mov ebp,s_ysize[esp]
+
+		mov esi,vsprite			; Pointer to DEPACK area
+
+		mov ebx,ypos			; Get Y position
+
+		cmp ecx,0			; Check if X size<xscreen1
+		jle $$no_sprite			; If <0 skip drawing
+		cmp ebp,0			; Check if Y size<yscreen1
+		jle $$no_sprite			; if <0 skip drawing
+
+		cmp dword ptr s_yflip[esp],1	; Check if YFLIP
+		je $$yflip			; If so, goto YFLIP loop
+
+		mov eax,s_yscreen1[esp]
+		cmp ypos,eax			; Check if CLIP Y<0
+		jge $$no_clipy2
+		mov eax,ypos			; Do clipping.
+		sub eax,s_yscreen1[esp]
+		neg eax
+		sub ebp,eax
+		mul ecx
+		add esi,eax
+		mov ebx,s_yscreen1[esp]
+$$no_clipy2:
+		mov eax,s_modulo[esp]		; Make offset out of Y position
+		mul ebx
+		add edi,eax			; Add it on screen offset
+		mov eax,ypos			; Check if CLIP Y>Yscreen
+		add eax,ebp
+		cmp eax,s_yscreen2[esp]
+		jle $$no_clipy1
+		mov eax,s_yscreen2[esp]		; Do clipping.
+		mov ebx,ypos
+		add ebx,ebp
+		sub eax,ebx
+		neg eax
+		sub ebp,eax
+$$no_clipy1:
+		cmp dword ptr s_xflip[esp],1	; Check if XFLIP
+		je $$xflip			; If so, goto XFLIP loop
+
+		xor edx,edx
+
+		mov eax,xpos			; Check if CLIP X>Xscreen
+		add eax,ecx
+		cmp eax,s_xscreen2[esp]
+		jle $$no_clipx1
+		mov eax,s_xscreen2[esp]		; Do clipping.
+		mov ebx,xpos
+		add ebx,ecx
+		sub eax,ebx
+		neg eax
+		sub ecx,eax
+		mov edx,eax
+$$no_clipx1:
+		mov eax,s_xscreen1[esp]
+		cmp xpos,eax			; Check if CLIP X<0
+		jge $$no_clipx2
+		mov eax,xpos			; Do clipping.
+		sub eax,s_xscreen1[esp]
+		neg eax
+		sub ecx,eax
+		add esi,eax
+		mov edx,eax
+		add edi,eax
+$$no_clipx2:
+		mov ebx,ecx
+
+		cmp ebx,0
+		jle $$no_sprite
+		cmp ebp,0
+		jle $$no_sprite3
+$$normal_loop:
+;-------------- Draw Loop Normal ------------------------------------------------
+		inc edi				; Next pixel
+  	      	mov al,[esi]			; Get pixel to store
+		inc esi
+		cmp al,0			; Check if pixel is 0
+		je $$no_pixel			; skip if so...
+ 		mov [edi],al			; Draw pixel
+$$no_pixel:
+		dec ebx				; Dec X counter
+		jne $$normal_loop		; LOOP
+		mov eax,s_modulo[esp]		; Add on to next Y line
+		sub eax,ecx
+		add edi,eax
+		mov ebx,ecx
+		add esi,edx
+
+		dec ebp				; Dec Y counter
+		jne $$normal_loop		; LOOP
+$$no_sprite:
+		add esp,s_sizeof
+		popfd
+		popad
+		ret
+;-------------- XFLIP -----------------------------------------------------------
+$$xflip:
+		xor edx,edx
+		mov edx,ecx
+
+		mov eax,xpos			; Check if CLIP X>Xscreen
+		add eax,ecx
+		cmp eax,s_xscreen2[esp]
+		jle $$no_clipx3
+		mov eax,s_xscreen2[esp]		; Do clipping.
+		mov ebx,xpos
+		add ebx,ecx
+		sub eax,ebx
+		neg eax
+		sub ecx,eax
+		add esi,eax
+$$no_clipx3:
+		mov eax,s_xscreen1[esp]
+		cmp xpos,eax			; Check if CLIP X<0
+		jge $$no_clipx4
+		mov eax,xpos			; Do clipping.
+		sub eax,s_xscreen1[esp]
+		neg eax
+		sub ecx,eax
+		add edi,eax
+$$no_clipx4:
+		mov ebx,ecx
+		cmp ebx,0
+		jle $$no_sprite2
+		cmp ebp,0
+		jle $$no_sprite3
+
+;-------------- Draw Loop XFLIP -------------------------------------------------
+$$xflip_loop:
+		inc edi				; Next pixel
+  	      	mov al,[esi+ebx-1]		; Get pixel to store
+		cmp al,0			; Check if pixel is 0
+		je $$no_pixel2			; skip if so...
+ 		mov [edi],al			; Draw pixel
+$$no_pixel2:
+		dec ebx				; Dec X counter
+		jne $$xflip_loop		; LOOP
+
+		mov eax,s_modulo[esp]		; Add on to next Y line
+		sub eax,ecx
+		add edi,eax
+
+		mov ebx,ecx
+
+		add esi,edx
+
+		dec ebp				; Dec Y counter
+		jne $$xflip_loop		; LOOP
+$$no_sprite2:
+		add esp,s_sizeof
+		popfd
+		popad
+		ret
+
+;-------------- YFLIP -----------------------------------------------------------
+$$yflip:
+		cmp dword ptr s_xflip[esp],1	; Check if also XFLIP
+		je $$xyflip			; If so, goto XYFLIP loop
+		mov eax,ebp
+		mul ecx
+		sub eax,ecx
+		add esi,eax
+
+		mov eax,s_yscreen1[esp]
+		cmp ypos,eax			; Check if CLIP Y<0
+		jge $$no_clipy3
+		mov eax,ypos			; Do clipping.
+		sub eax,s_yscreen1[esp]
+		neg eax
+		sub ebp,eax
+		mul ecx
+		sub esi,eax
+		mov ebx,s_yscreen1[esp]
+$$no_clipy3:
+		mov eax,s_modulo[esp]		; Make offset out of Y position
+		mul ebx
+		add edi,eax			; Add it on screen offset
+		mov eax,ypos			; Check if CLIP Y>Yscreen
+		add eax,ebp
+		cmp eax,s_yscreen2[esp]
+		jle $$no_clipy4
+		mov eax,s_yscreen2[esp]		; Do clipping.
+		mov ebx,ypos
+		add ebx,ebp
+		sub eax,ebx
+		neg eax
+		sub ebp,eax
+$$no_clipy4:
+		xor edx,edx
+
+		mov edx,ecx
+		add edx,ecx
+
+		mov eax,xpos			; Check if CLIP X>Xscreen
+		add eax,ecx
+		cmp eax,s_xscreen2[esp]
+		jle $$no_clipx5
+		mov eax,s_xscreen2[esp]		; Do clipping.
+		mov ebx,xpos
+		add ebx,ecx
+		sub eax,ebx
+		neg eax
+		sub ecx,eax
+		sub edx,eax
+$$no_clipx5:
+		mov eax,s_xscreen1[esp]
+		cmp xpos,eax			; Check if CLIP X<0
+		jge $$no_clipx6
+		mov eax,xpos			; Do clipping.
+		sub eax,s_xscreen1[esp]
+		neg eax
+		sub ecx,eax
+		add esi,eax
+		sub edx,eax
+		add edi,eax
+$$no_clipx6:
+		mov ebx,ecx
+
+		cmp ebx,0
+		jle $$no_sprite3
+		cmp ebp,0
+		jle $$no_sprite3
+$$yflip_loop:
+;-------------- Draw Loop YFLIP --------------------------------------------------
+		inc edi				; Next pixel
+  	      	mov al,[esi]			; Get pixel to store
+		inc esi
+		cmp al,0			; Check if pixel is 0
+		je $$no_pixel3			; skip if so...
+ 		mov [edi],al			; Draw pixel
+$$no_pixel3:
+		dec ebx				; Dec X counter
+		jne $$yflip_loop		; LOOP
+		mov eax,s_modulo[esp]		; Add on to next Y line
+		sub eax,ecx
+		add edi,eax
+		mov ebx,ecx
+		sub esi,edx
+
+		dec ebp				; Dec Y counter
+		jne $$yflip_loop		; LOOP
+$$no_sprite3:
+		add esp,s_sizeof
+		popfd
+		popad
+		ret
+
+;-------------- XYFLIP -----------------------------------------------------------
+$$xyflip:
+		mov eax,ebp
+		mul ecx
+		sub eax,ecx
+		add esi,eax
+
+		mov eax,s_yscreen1[esp]
+		cmp ypos,eax			; Check if CLIP Y<0
+		jge $$no_clipy5
+		mov eax,ypos			; Do clipping.
+		sub eax,s_yscreen1[esp]
+		neg eax
+		sub ebp,eax
+		mul ecx
+		sub esi,eax
+		mov ebx,s_yscreen1[esp]
+$$no_clipy5:
+		mov eax,s_modulo[esp]		; Make offset out of Y position
+		mul ebx
+		add edi,eax			; Add it on screen offset
+		mov eax,ypos			; Check if CLIP Y>Yscreen
+		add eax,ebp
+		cmp eax,s_yscreen2[esp]
+		jle $$no_clipy6
+		mov eax,s_yscreen2[esp]		; Do clipping.
+		mov ebx,ypos
+		add ebx,ebp
+		sub eax,ebx
+		neg eax
+		sub ebp,eax
+$$no_clipy6:
+		mov edx,ecx
+
+		mov eax,xpos			; Check if CLIP X>Xscreen
+		add eax,ecx
+		cmp eax,s_xscreen2[esp]
+		jle $$no_clipx7
+		mov eax,s_xscreen2[esp]		; Do clipping.
+		mov ebx,xpos
+		add ebx,ecx
+		sub eax,ebx
+		neg eax
+		sub ecx,eax
+		add esi,eax
+$$no_clipx7:
+		mov eax,s_xscreen1[esp]
+		cmp xpos,eax			; Check if CLIP X<0
+		jge $$no_clipx8
+		mov eax,xpos			; Do clipping.
+		sub eax,s_xscreen1[esp]
+		neg eax
+		sub ecx,eax
+		add edi,eax
+$$no_clipx8:
+		mov ebx,ecx
+
+		cmp ebx,0
+		jle $$no_sprite4
+		cmp ebp,0
+		jle $$no_sprite4
+;-------------- Draw Loop XYFLIP -------------------------------------------------
+$$xyflip_loop:
+		inc edi				; Next pixel
+  	      	mov al,[esi+ebx-1]		; Get pixel to store
+		cmp al,0			; Check if pixel is 0
+		je $$no_pixel4			; skip if so...
+ 		mov [edi],al			; Draw pixel
+$$no_pixel4:
+		dec ebx				; Dec X counter
+		jne $$xyflip_loop		; LOOP
+
+;		mov eax,s_xscreen[esp]		; Add on to next Y line
+;		sub eax,ecx
+;		add edi,eax
+
+;		mov ebx,ecx
+
+;		add esi,edx
+
+		mov eax,s_modulo[esp]		; Add on to next Y line
+		sub eax,ecx
+		add edi,eax
+		mov ebx,ecx
+		sub esi,edx
+
+		dec ebp				; Dec Y counter
+		jne $$xyflip_loop		; LOOP
+$$no_sprite4:
+		add esp,s_sizeof
+		popfd
+		popad
+		ret
+Sprite_Draw_ endp
+
+VBlank_ proc
+		ret
+		pushad
+		pushfd
+		mov dx,3dah
+$$bb1:		in al,dx
+		test al,8
+		jnz $$bb1
+$$bb2:		in al,dx
+		test al,8
+		jz $$bb2
+		popfd
+		popad
+		ret
+VBlank_ endp
+
+VerticalBlank_ proc
+		pushad
+		pushfd
+		mov dx,3dah
+$$bb1:		in al,dx
+		test al,8
+		jnz $$bb1
+$$bb2:		in al,dx
+		test al,8
+		jz $$bb2
+		popfd
+		popad
+		ret
+VerticalBlank_ endp
+
+ResetPalette_ proc
+		pushad
+		pushfd
+
+		mov ah,0
+$$loop1:
+		mov dx,3c8h
+		mov al,ah
+		out dx,al
+		inc dx
+		mov al,0
+		out dx,al
+		out dx,al
+		out dx,al
+		inc ah
+		jne $$loop1
+
+		popfd
+		popad
+		ret
+ResetPalette_ endp
+
+Fade		dw 0
+
+ColStart	db 0
+ColAdd		db 0
+
+direction	db 0
+
+include		data.32				;Include data
+
+regset	db	0e3h,4,6
+feed3d4	db	11h,0,6,20h,7,3eh,10h,0ffh,12h,0feh,15h,0ffh,16h,10h
+	db	14h,0,17h,0e3h
+feed_3d4_length	equ	($-feed3d4)/2
+
+		align 4
+oldval          dd 0
+
+curtime         dd 0
+oldtime         dd 0
+xsize		dd 0
+
+palette		dd 0
+sadder		dd 0
+length		dd 0
+screen		dd 0
+FrameEnd	dd 0
+NumCols		dd 0
+
+YPos		dd 0
+XSize		dd 0
+YSize		dd 0
+FrameSize	dd 0
+
+xpos		dd 0				; X position of sprite
+ypos		dd 0				; Y position of sprite
+xscreen		dd 0				; Width of screen
+yscreen		dd 0				; Height of screen
+sprite		dd 0				; Pointer to PCX sprite
+vsprite		dd 0				; Pointer to DEPACK AREA
+
+tichi		dd 0
+ticlo		dd 0
+
+_data 	ends
+
+end
+
