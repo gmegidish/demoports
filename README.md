@@ -13,6 +13,7 @@ Demoscene productions from the 1990s, rebuilt to run in a browser from their ori
 | The Quest of Kahn | Immortals | 1997 | MS-DOS | [src](https://github.com/gmegidish/demoports/tree/main/The_Quest_of_Kahn_by_Immortals) · [run](https://gmegidish.github.io/demoports/The_Quest_of_Kahn_by_Immortals/) |
 | Brother I Can See The Light | Immortals | 1997 | MS-DOS | [src](https://github.com/gmegidish/demoports/tree/main/Brother_I_Can_See_The_Light_by_Immortals) · [run](https://gmegidish.github.io/demoports/Brother_I_Can_See_The_Light_by_Immortals/) |
 | Outside | Melon Dezign | 1997 | MS-DOS | [src](https://github.com/gmegidish/demoports/tree/main/Outside_by_Melon) · [run](https://gmegidish.github.io/demoports/Outside_by_Melon/) |
+| Evoid Droid | Excess & Portal Process | 2007 | Xbox 360 | [src](https://github.com/gmegidish/demoports/tree/main/Evoid_Droid_by_Excess_Process) · [run](https://gmegidish.github.io/demoports/Evoid_Droid_by_Excess_Process/) |
 
 ## Hex Appeal — Cascada
 
@@ -49,3 +50,7 @@ Demoscene productions from the 1990s, rebuilt to run in a browser from their ori
 ## Outside — Melon Dezign
 
 [![Outside](Outside_by_Melon/docs/poster.png)](https://gmegidish.github.io/demoports/Outside_by_Melon/)
+
+## Evoid Droid — Excess & Portal Process
+
+[![Evoid Droid](Evoid_Droid_by_Excess_Process/docs/screenshots/01-intro.jpg)](https://gmegidish.github.io/demoports/Evoid_Droid_by_Excess_Process/)
