@@ -1,0 +1,438 @@
+      ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+      บ -=* T H E   G O O D ,   T H E   B A D   &   T H E   U G L Y *=- บ
+      บ                            by S!P                               บ
+      ศอออออออออออออออออออออออออ final version อออออออออออออออออออออออออผ
+
+
+Table of Contents
+-----------------
+
+       ๙ About The Demo
+       ๙ Release-Fuck-Ups
+       ๙ I've changed my name   <<<< READ!
+       ๙ The Credits
+       ๙ Stupid Questions
+       ๙ Commercial Demos
+       ๙ Messages and Greets
+       ๙ Contact us
+       . How 2 become Distro/HQ
+       . Memberstatus (Jan.1994)
+       . S!P history so far...
+       ๙ Final Words
+
+This document was written by Erik Pojar / S!P (former Rick Dangerous)
+
+
+About the Demo
+--------------
+
+This demo made the second place at the demo competition of THE PARTY 3 in
+Herning / Denmark.
+
+This demo is designed to work also on not-so-powerfull computers. In fact
+I've tested it on a 286 and it worked fine.
+There are some rumors, that there are some bugs on a 486-66 with a local bus
+ET-4000.... Hmm. strange. But hey, just let it run on a slower computer ;-)
+
+The demo needs 600.000 Bytes of free conventional Memory. No EMS is needed.
+In fact, the demo won't run with an EMS-driver.
+
+The demo uses exclusively the Gravis Ultrasound for music output. A 256k GUS
+will do.
+
+
+Release Fuck-Ups
+----------------
+
+Well, it's no secret, that the so-called 'Amiga-organizers' kinda fucked up
+parts of the pc-part of the party. Their Masterpiece was to force all atten-
+dants of the demo competition to release their demos, even if they were not
+finished. Well. I know that the Demo of Stone/Dust isn't finished yet, my
+demo was only finished 95%, and the demo by Infiny wasn't absolutely ready
+either!
+
+So the top 3 demos weren't finished, but still they wanted them released.
+I talked to Lord Cyrix / Access Denied, and he told me that I've got time
+till the 10th of January to finish everything, so that sounded o.k. to me!
+
+But today (which is the 7th of January, the day I actually finished the demo)
+I learned that the demo-fragments where released allready. Hmm.
+
+Well. THIS is the final version of GBU, so it's not my fault you had to down-
+load it twice.
+
+//ReeBoK//: I really have to say: Who ever spreaded the unfinished versions
+of the demos should better hide himself well, 'cause I will find you and then
+you will get some nice things to hear (and actually they will be supported
+be some kicks in your ass!!!) Fuck you, son of a bitch, how could you dare
+to realese our work without permission  =B-(  
+We get you asshole! (this is not a promise, it's a fact!)
+
+
+I've changed my Name
+--------------------
+
+I've deceided to drop my Handle. I don't want to be called Rick Dangerous any
+longer. Simply call me by my real name: Erik Pojar.
+I WILL NOT read any letters which have written 'Rick Dangerous' on it. I HATE
+getting such letters, because my postman always looks at me in such a strange
+way.. So do me a favour and simply call me Erik!
+
+
+The Credits
+-----------
+
+        Front-end coding, demo linking, additional design by Erik Pojar.
+        Music by Fred.
+        Graphics by Maestro and J.O.E.
+        Coding and additional Design by Antibyte.
+        Coding by Peci.
+
+detailed credits in order of appearance:
+
+        Textmode-routines........................Code by Peci
+        Intro....................Code by Erik, Gfx by Maestro
+        Credits..............................Code by Antibyte
+        Plasma...................................Code by Erik
+        Cyclic-Plasma............................Code by Erik
+        Morphing-Line-figures....................Code by Peci
+        Chess-effect.............................Code by Erik
+        Water-effect.............Code by Erik, Gfx by Maestro
+        Glentz-Vector............................Code by Erik
+        Picture-Wobbler..........................Code by Erik
+        Chess-Paralax-zoomer.....................Code by Erik
+        Paralax-Bars-with-chessplane.............Code by Erik
+        Zooming-16x16-pictures...................Code by Erik
+        Glentz-chess-cube........................Code by Erik
+        Greetings-scroller.......................Code by Peci
+        Dot-tunnel...........................Code by Antibyte
+        Picture-of-Motorcycle....................Gfx by J.O.E
+        Transforming-objects.....................Code by Erik
+        Contour-City.............................Code by Erik
+        Rotating-door............................Code by Erik
+        Picture-zoomer...........Code by Erik, Gfx by Maestro
+        Rotating-Fractal-zoomer..................Code by Erik
+        Two-glentz-cubes.........................Code by Erik
+        Jelly-Cubes..............................Code by Erik
+        3200-Dots-cubes......................Code by Antibyte
+        End-Ansi.........................................Erik
+
+
+Stupid Questions
+----------------
+
+Here are the answers to your stupid questions:
+Yes, I do watch Kefrens demos.. and oh yes, I do watch Pygmy demos.
+If you don't understand my answer, then you haven't asked the stupid 
+question yet.
+
+
+Commercial Demos
+----------------
+
+The developement team of 'The Good, The Bad & The Ugly' would be most pleased
+to do a commercial presentation for you or your company. Just send us a short
+description of what is needed, and we'll tell you the price.
+Send your questions, ideas, orders, etc. to Erik Pojar.
+
+
+Messages & Greets
+-----------------
+
+The Greets go to all in S!P, especially to my old friends, Firefly & Ulrik.
+I don't greet all my Austrian pals here, 'cause I see them anyway every day
+at university...
+Greets to all I met at the Party 1,2 and 3 except the fucking lamer of
+Irresistible Works who really bothered me quite badly...
+
+Well. Here are a few personal messages from me to some of my friends in the
+scene. There's no order at all, I've written parts of it before and some other
+parts after the party.
+
+Dave Cooper:           Found the second renaissance of your life yet?
+                       Keep up the good work.
+
+Zeek:                  Dave keeps telling me you're a genius!
+                       (and I believe him ;-)
+
+Captain Bit:           No (s)pain no gain! Nice meeting you!
+
+Hydra of Anarchy:      I love your songs! Just wait for SADT V2.0
+
+Siegfried of Impact:   Sorry I couldn't fix the 320x240 thingy in time.
+                       How's your demo coming?
+
+JCAB of Iguana:        One day I'll finish the german-translation...
+                       I'll send you SADT real soon....
+
+Arjan Brusee of DD:    Got that strange fax? Don't take it too serious...
+
+Darkness of Imphobia:  Thanks for the immense moral support! You're a pal.
+                       Don't forget to send me some of the photographs!
+                       (and: don't take university that serious. It's just
+                       fun...)
+
+Jens Christan Huus:    Damn! I'm not allowed to call you JCH of ........ 
+                       anymore!
+
+Zodiak of Cascada:     How's life without the 'Wiener Schnitzel' ?
+                       It's allways a pleasure talking to you.
+                       The crazy picture of you and Darkness turned out just
+                       great!
+
+Hellraiser of Cascada: The special Pizza-credits go to you! Thanx again!
+
+Robban of Cascada:     What's that noise? ;-)
+                       Thanks for the help with the GUS!
+
+Mirage of Cascada:     Nice talking to ya, Cool gfx! really!
+
+Timo of Xography:      The Camera-man... Why don't you send me the pics over?
+
+Ken Fuerstenhaefer:    Spelled your name right? Sure hope so!
+                       I enjoy your phone-calls!
+
+Stone of Dust:         Deine Demos sind so gut, daแ mir ganz schlecht davon
+                       wird... Good work, good work... and a friendly guy!
+
+Mark Hellwig:          Wie gehts mit Turrican? Ich will endlich spielen....
+
+Sebastian Mies:        Hast nen guten Modplay.. in der tat. Wann gibt's 
+                       endlich ein Demo von dir und Mark?
+
+Lord Cyrix:            Thanks for trying to repair some of the 'organizing'
+                       those amiga-dudes did...
+
+Wildfire / FC:         When will we see your new copper-fx?
+
+Gore / FC:             I thought you hated me, eh? Well, I think we got things
+                       kind of sorted out at the Party! It's better this way.
+                       When is that video tape going to be released?
+
+Abyss / FC:            You sure know how to throw snowballs....
+
+Trap / Bonzai/S!P:     Send me some of your musics! I can't wait to hear them!
+
+Walt / Bonzai/S!P:     Too bad we didn't include that demopart(s)... But hey!
+                       release a demo of your own and beat mine! You've got
+                       the potential...
+
+Boris Ottilevski:      Ich hab deinen Namen sicher falsch geschrieben ;-)
+                       Release WowIII! Do it.
+                       Wie zum Teufel schaffst du es bloss, immer eine derart
+                       perfekte Frisur zu haben?
+
+Fred / S!P:            You are a musical genius. No kiddin!
+                       You are my favourite musician.
+
+BARTi! / Infiny:       Cool demo. Add some design touches here and there
+                       and you've got a outstanding demo!
+
+Zax / Avalanche:       Hope you undertsood that Fractal-zooming... ;-)
+                       Pleasant conversation we had...
+
+Phil Shatz:            Thanks for the book!
+
+John Smith:            Why not support us with a few GUS'?
+
+
+Maestro greets the following dudes:
+
+
+Rick Dangerous
+Burnin' Chrome
+ReeBoK        
+J.O.E.
+All other S!P- dudes
+Skaven / FC
+Roger Dean
+
+in Graz:
+Post Mortem
+The Apfelsaft-Crew
+Tom / Deep Thought BBS
+Commander Greg
+Josef Buckmann
+Tarek & friends
+
+
+ReeBoK wants to honour the following folks:
+
+My pals in S!P:        Keep up the good work! And simply have fun!
+
+Defjay / Scoopex:      Wir liefern Intros in allen Gr”แen und Farben.
+                       Auf Wunsch auch mit fremdlndischer Dokumentation!
+                       Keep up ya kewl work in SCX!
+
+*Sir 13* / Micron:     Thanx for updating my Software-Collection all the
+                       time! Hope I don't nerve you too much with all the
+                       slaves I always bring to your place!   =8-)
+
+JCAB / Iguana:         Nice meeting ya dude! Always busy coding!?!
+
+Darkness / Imphobia:   Kewl Maggy! Good work! Thanx for your support at 
+                       The Party III and always being the right time at
+                       the right place!
+
+Jerker V. / TDS:       A shame your demo wasn't shown! Anyway, good luck
+                       in the future...
+
+Hijack / S!P:          Do you owe a PC, too, now??? Greet the others from me!
+
+Infiny (Zeb & Co.):    Kewl demo! Keep them comming! Was really nice 
+                       meeting you guys!
+
+Steel / Supreme:       Here it is! Hope you like it!
+
+Rd-d / Purge:        Da is' es ja! Final release +3, harharhar!
+
+Susgar / Reflex:       Nice meeting ya! Send some prods. from Reflex!
+
+The Faker/Aardvark:    Good luck for you and your group!  ;-)
+
+Lord / S!P:            Your BBS sucks! I tried to call it 14 times, but
+                       the only thing I heard was the ugly voice of a
+                       woman! ( At least I think it was a woman! )
+                       Anyway, nice meeting ya, thanx for calling me, 
+                       sorry 4 not calling back, no time, no money  ;-)
+
+Lord Cyrix / AD:       Nice chattings, anyway you sleep at curious times!
+
+Guitar:                Nice chatting ya, too! Hope you like this!
+
+Patriot / S!P:         The BBS programm is comming soon, we are still 
+                       testing it!
+
+Fred / S!P:            Keep the great musix comming & hope you get ya new
+                       PC soon!!!
+
+Harald Schmid:         Sorry 4 da long delay! Finally I made it to write
+                       ya!
+
+Corwin & Hermes:       Better luck with ya new game this time! Anyway
+                       Hermes, get on -> move to PC coding!!!
+
+John Smith:            Don't forget us and we wont forget you!!!
+
+Eddi++, Prince, and all the other millions of fans: stay kewl or get lost!!!
+
+
+Contact us
+----------
+
+Coders write to:
+
+    Erik Pojar                    (former Rick D.)
+    Siegfriedgasse 55
+    A-1210 Vienna
+    Austria
+
+    Voice/Fax: +43 1 2154457
+    (I've only got a fax-modem, so if you want to send me a fax, please call
+     me voice, and tell me so.)
+
+Anybody else write to:
+
+    Severin-Stephan Kittl         (Reebok, Organizer)
+    Hollergasse 27/19             
+    A-1150 Vienna                                     
+    Austria
+
+    Voice: +43 1 8924204
+    (Here you can get information how to become a S!P warrior, ya can swap 
+     some intros/demos/etc., send t-shirts and beer-bottles, make crazy calls
+     and talk dirty to my answering machine!)
+
+Internet:
+
+    smarton@tuwien.ac.at
+
+    ( Have a chat with either Burning Chrome, Antibyte or Erik Pojar )
+
+Fax:
+
+    Black on White (S!P WHQ Fax) +43 1 2203412
+
+Or call one of these Boards:
+
+    EURO    HQ:     Angry Again    +43 1 22169160  Open soon!
+    BELGIUM HQ:     Point Break    +32 1 1436925
+    DK      HQ:     Kilroy         +45 45 83 32 98
+    GERMAN  HQ:     Crystal        +49 613 81293
+    U.S.    HQ:     Whammy Bar     708 268 0035
+    BELG. DISTRO:   Genesis        +32 2 2453498
+
+How 2 become Distro/HQ
+----------------------
+
+Quite simple: call one of the listed mailboxes and let a message to
+ReeBoK or O'Neill or Outcast! We check it up and give you an answer in
+return!
+
+
+Memberstatus (Jan.1994)
+-----------------------
+
+Austria:        Antibyte                Coder
+                Burning Chrome          Coder, Musician
+                Corwin                  Graphician
+                Erik Pojar              Coder
+                J.O.E.                  Graphician, Musician
+                Luke                    SysOp, Coder
+                Maestro                 Graphician
+                Peci                    Coder
+                ReeBoK                  Organizer, SysOp
+                Spike                   Hardware, Coder
+Denmark:        Kwon/Bonzai             Coder, Graphician
+                Metal/Bonzai            Musician
+                Trap/Bonzai             Musician, Coder, Graphician
+                Walt/Bonzai             Coder
+                Zyborg/Bonzai           Coder
+                Als                     Musician
+                Cycron                  Coder
+                Exorcist                Coder
+                FireFly                 Graphician
+                Interleave              Coder
+                London Kid              Coder
+                Ulrik Henriksen         Organizer DK
+                Xerox                   Coder
+Finland:        O'Neill                 Trader, Modemorganizer
+                Outcast                 Trader, Modemorganizer
+                Whiplash                Musician, Graphician
+France:         Elwood                  Organizer F, Trader
+                Fred                    Musician
+                Kid                     Graphician
+                Patriot                 Trader, Co-Org F
+                                                     
+S!P history so far...
+---------------------
+
+LATERNA.ZIP     Laterna Magica by Surprise! Productions
+                A Slideshow. The Wonderful Art of J.O.E.
+COPPER.ZIP      Copper by Surprise! Productions
+                A Demo. Erik shows what a standard PC can do.
+D&P.ZIP         Drums & Pipes by Surprise! Productions
+                A Musicselector. J.O.E.'s first musics.
+STARDRM.ZIP     Stardream by Surprise! Productions
+                A Dentro for our Demo "The Good, the Bad & the Ugly"
+UNLPOWER.ZIP    Unleased Power by Surprise! Productions
+                A Demo. S!P Denmark shows its talent.
+SADT.ZIP        Surprise! Adlib Tracker
+                A Musiceditor. "Finally our own replayer!", Erik.
+S!P-BBS.ZIP     Killroy BBS Intro by Surprise! Productions
+                A Intro. for our new DK HQ.
+GBUFINAL.ZIP    The Good, the Bad & the Ugly by Surprise! Productions
+                A Demo. This is the ONLY final version!
+                2nd Place on The Party 3 Demo compo!
+
+If you don't have them all, but want to complete your collection call one
+of our Boards or write to ReeBoK!
+
+Final Words
+-----------
+
+Have fun & enjoy life! 
+
+signed,
+   Erik Pojar / S!P
+   (former Rick Dangerous)

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Good, the Bad &amp; the Ugly — Surprise! Productions</title>
+  <style>
+    :root {
+      --bg: #000;
+      --fg: #b8b0d8;
+    }
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: var(--bg);
+      color: var(--fg);
+      font: 14px/1.4 ui-monospace, Menlo, monospace;
+      overflow: hidden;
+    }
+    #screen {
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      width: min(100vw, calc(100vh * 4 / 3));
+      height: min(100vh, calc(100vw * 3 / 4));
+      image-rendering: pixelated;
+      display: block;
+    }
+    #start {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-content: center;
+      justify-items: center;
+      gap: 14px;
+      cursor: pointer;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+    }
+    #start:focus-visible {
+      outline: 1px solid var(--fg);
+      outline-offset: -12px;
+    }
+    #hint {
+      font-size: 11px;
+      opacity: 0.5;
+    }
+    #hud {
+      position: fixed;
+      top: 8px;
+      left: 8px;
+      opacity: 0.6;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="screen" width="320" height="200"></canvas>
+  <div id="start" role="button" tabindex="0">
+    <div id="status" aria-live="polite">loading</div>
+    <div id="hint">F — fullscreen · ← → — seek</div>
+  </div>
+  <div id="hud" hidden></div>
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>

@@ -19,6 +19,7 @@ little longer.
 | Demo | Group | Year | Platform | |
 |---|---|---|---|---|
 | Hex Appeal | Cascada | 1993 | MS-DOS | [src](https://github.com/gmegidish/demoports/tree/main/Hex_Appeal_by_Cascada) · [play](https://gmegidish.github.io/demoports/Hex_Appeal_by_Cascada/) |
+| The Good, the Bad & the Ugly | Surprise! Productions | 1993 | MS-DOS | [src](https://github.com/gmegidish/demoports/tree/main/The_Good_the_Bad_and_the_Ugly_by_Surprise_Productions) · [play](https://gmegidish.github.io/demoports/The_Good_the_Bad_and_the_Ugly_by_Surprise_Productions/) |
 | Jesus on Cheese | S.H.I.T.T.S. | 1993 | Amiga 500 | [src](https://github.com/gmegidish/demoports/tree/main/Jesus_on_Cheese_by_Shitts) · [play](https://gmegidish.github.io/demoports/Jesus_on_Cheese_by_Shitts/) |
 | Baygon | Melon Dezign | 1995 | Amiga 1200 | [src](https://github.com/gmegidish/demoports/tree/main/Baygon_by_Melon_Dezign) · [play](https://gmegidish.github.io/demoports/Baygon_by_Melon_Dezign/) |
 | Euphoria | Esteem | 1995 | MS-DOS | [src](https://github.com/gmegidish/demoports/tree/main/Euphoria_by_Esteem) · [play](https://gmegidish.github.io/demoports/Euphoria_by_Esteem/) |
@@ -32,6 +33,10 @@ little longer.
 ## Hex Appeal — Cascada
 
 [![Hex Appeal](Hex_Appeal_by_Cascada/docs/poster.png)](https://gmegidish.github.io/demoports/Hex_Appeal_by_Cascada/)
+
+## The Good, the Bad & the Ugly — Surprise! Productions
+
+[![The Good, the Bad & the Ugly](The_Good_the_Bad_and_the_Ugly_by_Surprise_Productions/docs/poster.png)](https://gmegidish.github.io/demoports/The_Good_the_Bad_and_the_Ugly_by_Surprise_Productions/)
 
 ## Jesus on Cheese — S.H.I.T.T.S.
 
