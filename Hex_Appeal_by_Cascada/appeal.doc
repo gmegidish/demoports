@@ -1,0 +1,251 @@
+
+
+
+                      ‹‹          ‹‹‹‹‹‹‹            ‹
+                   ‹€€€€€€‹    ‹€€€ﬂﬂﬂﬂﬂ€€€‹        €€€
+                  €€€ﬂ  ﬂ€€€‹ ﬂ€ﬂ  €      ﬂ€€‹     ﬁ€€›
+                 €€€      ﬂﬂ       €€       €€›   ‹€›€€
+                ﬁ€€               ﬁ€€›      ﬁ€€  ‹€€ ﬁ€€
+                €€›            ‹  ﬁ€€›      ﬁ€› ‹€€   €€€
+                ﬁ€‹           €€› €€€      ‹€€ ‹€€     €€€
+                 ﬂ€€‹‹     ‹‹€€€ ﬁ€€›  ‹‹‹€€ﬂ €€€   ﬂ€€€€€€
+                   ﬂﬂ€€€€€€€€€ﬂ  €€€‹€€€€ﬂﬂ  ﬂ€ﬂ         €€€
+                       ﬂﬂﬂﬂ       ﬂ                       €€€
+                       ˙ C ˙ A ˙ S ˙ C ˙ A ˙ D ˙ A ˙       €€ﬂ
+                                                            ﬂ
+                    [The group with all the right MOVs!]
+
+                                  presents
+                               in August 1993
+
+                €  € €ﬂﬂﬂ €  €    ‹ﬂﬂ‹ ﬂﬂﬂ‹ ﬂﬂﬂ‹ €ﬂﬂﬂ ‹ﬂﬂ‹ €
+                €ﬂﬂ€ €ﬂﬂ   ﬂ‹     €ﬂﬂ€ €ﬂﬂ  €ﬂﬂ  €ﬂﬂ  €ﬂﬂ€ €
+              . €  € €‹‹‹ €  €    €  € €    €    €‹‹‹ €  € €‹‹ .
+
+
+                                  HEX APPEAL
+                                  ÕÕÕÕÕÕÕÕÕÕ
+      We promised you guys out there in the  TCCINTRO that there would be
+      a demo coming from us in May/June. There were lots of rumours about
+      it and one  could even  read in  the World  Charts that "Cascada is
+      going to  release a  very  good  demo at  the Computer  Crossroad".
+      Unfortunately, we  didn't, because  (just like usual) we ran out of
+      time.  After TCC we took a few months' break, and now, in the first
+      days of August we  figured that perhaps  finishing and releasing it
+      at the Assembly '93 party would be a good idea.
+      We cut a lot of effects,  leaving just a  short flow of routines to
+      increase  the chances  of making it in time.  However, with 2 hours
+      left to make it run for the  Asm'93 competition we were to tired to
+      finish it off.  Now when the competition is over we could of course
+      just as  well hold on to the  demo a few weeks  more and  add a few
+      more routines, but we are so sick of  this now so you'll have to do
+      with the demo as it looks at this point.
+      So here it is! It's  not quite  the same demo that we were supposed
+      to release  at TCC but  not many people saw the preview anyway so I
+      guess it won't matter much.
+
+      It's not  very long, not too groundbreaking  but I believe and hope
+      that you will  enjoy it.  We thought it's time to take a break from
+      all these  techno-soundtracks  now and do  something a  little more
+      laid back. So here's Hex Appeal.
+
+      Hex  Appeal is freeware  and may  be freely  distributed  while not
+      modified in  any way. You are not  under any  circumstances allowed
+      to sell  copies of it. Violations  will be reported to federal law.
+                                     ...
+
+                                 Requirements
+                                 ÕÕÕÕÕÕÕÕÕÕÕÕ
+      The demo  requires  a i386© or better processor,  VGA  graphics and
+      preferrably a sound peripheral as a Gravis UltraSound, SoundBlaster
+      or a SoundPlayer D/A.  We kept in  mind that running  the demo on a
+      i386© should be possible, at least with a fast  graphics-card  such 
+      as  the  ET4000, but  we  recommend  that  you watch  it on a i486©
+      machine.  Our music system is able to use sampling-interpolation to
+      improve the sound quality  radically. However, this  requires twice
+      as much  processor time, so if the  demo doesn't run  smoothly turn
+      the interpolation off or lower the sampling rate.
+
+      © = Or i80386/486 compatible such as the AMD and CYRIX.		
+                                     ...
+
+                                   Credits
+                                   ÕÕÕÕÕÕÕ
+                       Design.................Cascada!
+                       Setup.....................Jeffe
+                       Setup graphics...........Mirage
+                       Intro blur...............Robban
+                       Intro font..............Delsion
+                       Hex Appeal logo..........O'Hara
+                       Stardriver...........Hellraiser
+                       Cubes................Hellraiser
+                       Cube logo...............Delsion
+                       IFS and Morphs.......Hellraiser
+		       Eevi picture............Delsion	
+                       Texture code.............Iceman
+                       Texture pictures.........O'Hara
+                       Slimy panner.............Iceman
+                       Slimy font & marble......O'Hara
+                       Phunky soundtrack........Zodiak
+                       Bullshit texts...........Zodiak
+		       Bullshit text debugging..Hellie	
+                       Musicsystem..............Robban
+				
+			       Special Credits	
+                               ÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕ
+
+	               Linking and debugging....Robban	
+	       (Every coder knows why this is an extra credit!)	
+			
+                              Contacting Cascada
+                              ÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕ
+      Perhaps you  feel that  you'd like to contact us.  Ok, do so.  Just
+      realize  that we are just young students with very little money and
+      very little time to answer letters. Therefor, if you want an answer
+      be sure to  include Swedish  stamps or  an IRC  check (you  can buy
+      IRC's at the post office in almost every country in the world). And
+      even if you  include an IRC you  can only be 90% sure of an answer.
+      I still  get letters  from  people who  write believe that they are
+      cool when they  write long descriptions  of what they do with their
+      girlfriends and  want to swap "hot warez". We are not interested in
+      any illegal  activities  (including swapping  copyrighted software)
+      and if we sent you the  sourcecodes of the demo we would in a short
+      while have  tons of small intros with the effects slightly modified
+      and we don't want that. You are allowed to rip the music but if you
+      use it  somewhere, don't  forget  to credit  the original composer.
+      The source code of our modplayer (GUSPLAY)for the Gravis Ultrasound
+      is released  and  downloadable on  various BBS's  and Internet. The
+      sourcecodes  of our  other  musicroutines  are  unreleased and will
+      remain so. Use GOLDPLAY or DSMI instead.
+
+      Please understand that I can't  afford to answer even a few of your
+      letters if I have to pay for it myself. I can't even afford to have
+      my own phone. The best and most secure way to get a quick answer if
+      you have  questions  about  Cascada is  to  send  a message  in the
+      Creativity  Demo Net  (CDN). There are CDN nodes  in  many European
+      countries and in America, Canada, Australia...
+
+      All of you who have  written to me and haven't got an  answer back;
+      I'm terribly  sorry. Probably I haven't  had  time  to  answer your
+      letter right  away but  put it on  my table (which  always  is in a
+      mess). Sometime when I clean  up over here (or hire Anticimex to do
+      it) I might  find your letter and send you a reply back, who knows.
+      I'm sorry  not to be able to help  you get started with demo coding
+      but if  I would  write  answers  to all  the  specific  programming
+      questions I've got since the release of  Cronologia  (1991) I would
+      have to take a few years off. I hope that you  can somehow  respect
+      this.
+                                     ...
+
+                                     CDS
+                                     ÕÕÕ
+      This demo  is the first CDS  production. CDS? Yep, Cascada has been
+      under (a well needed)  re-organization for a  while and we ended up
+      with the normal commercial/non-commercial problem. We don't want to
+      leave the scene yet but  we can't let down our commercial projects.
+      Therefor, we  formed CDS, the Cascada Demo Section.  There is right
+      now not a valid  memberlist of CDS but in the next demo you can get
+      all the information you might want. For the moment CDS consist only
+      of old Cascada members. However, CDS could use a few more coders to
+      concentrate on demos alone. If YOU can code demos like this one and
+      would like to join CDS, don't hesitate to contact us! TODAY.
+
+      CDS and Cascada  will also need a few distribution sites abroad. If
+      you are a sysop  with a fairly  big board with  good reputation and
+      you would like it to be a Cascada site, call one  of our boards and
+      request the file CDS_SITE.FRM, fill it out, and send it back!
+
+                                     ...
+
+      As the others persueded me (Zodiak) to write this textfile I'll take
+      the opportunity to send some personal messages to guys in the scene.
+                The group greetings can be found in the demo.
+
+    TCB; Nice co-operation at TCC guys! Let's make it even better next year!
+        Tom/DCE; Ya think Rem can get his hands off Indra for just a few
+           seconds? I mean enough to answer a letter in the CDN or so?
+              Metal/Vibrants; Kings of the AdLib! Nice correspondance.
+        Alex/Witan & Jendrik/Witan; I'm really glad that at least you made
+         up your mind not to find out a silly excuse but just come to the
+        TCC!!! Nice meeting you there and I hope to see you next year also.
+                       And good luck with the house demo.
+       Loot/Triton; Changed the greetings-list yet? No? :-))))))))))))))))
+               Darkness/Imphobia; Eagerly awaiting Imphobia #6!
+          Zed/FAIC; 1000 thanks for the ANSI/ASCII support! Keep it up!
+        Rick Dangerous/S!P; Thanks for no greets in your Asm'93 intro! =)
+      White Shadow/Renaissance; It's been long man! Perhaps some day when
+      you're bored (like if that could happen) maybe you'll sit down in a
+                   comfortable chair and...write me a letter?
+                Sylvio/Triumwyrat; Good luck with the software.
+           The Finn/VLA; Don't expect me to call your board much...
+                I hope letters will do (again) for now... =)
+                 Dark Inventor; The site deal is still on...
+                     Anxious/2400AD; Now go for a big one!
+            Technomancer; You're having a hard time over there man...
+       Charp/Skull; Finished wall-papering your room yet? Get back to the
+                    keyboard and finish whatever there is! =)
+      ALL THE GREAT PC CODERS; Why not apply to the Cascada Demo Section?
+                                     ...
+
+                       Here's the contact information:
+                                    CASCADA
+                               c/o Erik Stridell
+                                   RotevÑgen 1
+                              S-735 33 Surahammar
+                                    Sweden
+
+                                 CDN: 94:71/0
+
+                         FAX: (Robban) +46 (0)8 7410778
+			 FAX: (Hellie) +46 (0)8 330892
+
+                                Bulletin Boards:
+         Twilight Garden - +46 851050925 - HST V32bis - Sysop: Jeffe
+         U ˘ M ˘ A ˘ N  - +46 854025353 - HST V32bis - Sysop: Mirage
+                 [Yet another Cascada board to come shortly!]
+     ‹                                                                   ‹
+   ‹ﬂ≤ﬂ‹    ‹‹‹‹‹‹ ‹‹‹‹‹‹‹ ‹‹‹‹‹‹‹ ‹‹‹‹‹‹‹ ‹‹‹‹‹‹‹ ‹‹‹‹‹‹‹ ‹‹‹‹‹‹‹     ‹ﬂ≤ﬂ‹
+ ‹ﬂ∞±∞±≤ﬂ‹  €‹‹‹‹‹ €ﬂﬂﬂﬂ€€ €‹‹‹‹‹‹ €€‹‹‹‹‹ €ﬂﬂﬂﬂ€€ ‹‹‹‹‹ € €ﬂﬂﬂﬂ€€   ‹ﬂ∞±∞±≤ﬂ‹
+ €€‹∞∞±‹€€  €€€€€€ €€€€ﬂ€€ ‹€€€€€€ €€€€€€€ €€€€ﬂ€€ €€€€€€€ €€€€ﬂ€€   €€‹∞∞±‹€€
+  ﬂ€€›€€ﬂ     -  D   E   M   O      S   E   C   T   I   O   N  -      ﬂ€€›€€ﬂ
+    ﬂ ﬂ                                                                 ﬂ ﬂ
+ [The ASCII art (the Cascada logos) in this textfile were made by ZED of FAIC]
+
+Coders Note:
+	
+   Official release date: 2:th Of September 1993.
+
+   This demo will not work on a Tseng 3000, and we have not had the time
+   to test it on too many machines.
+
+   The main reason for the delay (except for strange bugs) is that we are
+   currently developing a Virtual Reality Graphics System. This will keep
+   us busy from doing public domain demos, probably...
+
+   DonÔt get sad about that, instead keep your eyes open next time you
+   pass your local arcade hall (!).	 
+   
+   Ok, I hope we have cleared up some of the rumours (which were true!)
+   and we hope you enjoyed this demo.
+
+   My personal regards go to:  Friends & Family - You know who you are!		
+		( Levon, you probably donÔt! :-) Keep on coding! )
+		( Elin - Thanx for putting up during the week Robban
+ 			 and I coded. Love you! )
+
+   Robbans regards go to:  Friends & Family
+			   Steffe - Started coding yet??
+			   Peppe  - Finnish that game, I want to test it!
+
+
+
+   ...Thou Shall Be Awere Of Virtual Reality...
+
+   
+
+   Signed: Hellraiser & Robban
+   		
+   
+
+   
+
