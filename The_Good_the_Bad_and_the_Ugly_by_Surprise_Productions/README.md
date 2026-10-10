@@ -30,7 +30,7 @@ python3 -m http.server 8000
 Add `#t=200` to the URL to start 200 s in, `#hud` to show the clock, `#nosound` to run on the wall clock without the soundtrack.
 
 ```bash
-npm test                                   # 6 tests
+npm test                                   # 7 tests
 node tools/frames.mjs /tmp/gbu 9500 17000  # render frames (recording frame numbers) to PNG, no browser
 node tools/shot.mjs /tmp/gbu 135 242       # the same at soundtrack seconds
 node tools/poster.mjs                      # renders docs/poster.png
@@ -97,12 +97,12 @@ Times are from the switch to graphics after the start key, in seconds of the rec
 
 **A VGA at register level, with a beam.** `src/vga.js` holds the four planes, the latches, write modes, map mask, bit mask, set/reset, and the sequencer, graphics, CRTC, attribute and DAC registers; the effects' `out` instructions become `vga.out8`/`vga.out16` with the same ports and values. The screen is worked out from the registers (`src/screen.js`): start address, offset, line compare, maximum scan line, pel panning, chain-4 or planar, the attribute palette, Color Select and P54S, the DAC, screen off. Several effects change the picture while it is being drawn: the plasma and the water set the CRTC offset on every line, the chess zoomer sets Color Select on every line and draws its bars into the line being shown, the greetings change the offset and a colour per line. For those the effect counts its horizontal-retrace waits and the VGA draws the lines the beam has passed before each change. The rule for where a change lands was measured in the recording.
 
-**Like the recording.** The reference is DOSBox, and in four places the port follows DOSBox where a real VGA would differ:
+**Like a VGA card, not like DOSBox.** The reference recording is DOSBox, and in two places DOSBox shows something a VGA card does not. There the port follows the card:
 
-- DOSBox draws the 16-colour modes from its own copy of video memory, which writes in a 256-colour mode do not reach. The morphing lines' background is the plasma's picture seen through that copy; on a VGA card it would be black.
-- In a 256-colour mode, DOSBox's palette only takes DAC writes made while a 256-colour mode is set: the water's last colours are those the cyclic plasma left.
-- DOSBox applies a change of mode or line height one frame late, and a DAC entry when its blue component is written.
-- The plasma and the parallax bars run without waiting for the retrace, so their tears depend on how long each music tick took in DOSBox. The port models the scanline cost; the plasma uses the tick lengths measured in the recording.
+- DOSBox draws the 16-colour modes from its own copy of video memory, which writes made in a 256-colour mode do not reach. Around the morphing lines' box DOSBox shows the plasma's old picture as noise; the demo cleared that memory, and on a VGA card it is black.
+- DOSBox's palette for 256-colour modes ignores colours written while the card is in a 16-colour mode. The chess effect sets colours 60 to 62 to white that way, and the water uses them for the highlights of the dragon's wings: white on a VGA card, almost black in DOSBox.
+
+Elsewhere the port follows DOSBox where it can't know better: a change of mode or line height shows one frame after it is made, and the plasma and the parallax bars, which run without waiting for the retrace, tear where they did in the recording. The port models their scanline cost; the plasma uses the tick lengths measured in the recording.
 
 **Music as a clock.** The soundtrack is the recording's audio, and the page runs the demo up to the audio's `currentTime`. Before the GUS starts there is no music; the recording's first tick is 8.3 s in.
 
@@ -114,7 +114,7 @@ Times are from the switch to graphics after the start key, in seconds of the rec
 
 Verified:
 
-- **Against the original running, every frame:** the port was rendered for each of the recording's 32744 frames and compared byte for byte. 30506 are identical. `test/original.test.js` checks one frame in each effect in a single run of the demo.
+- **Against the original running, every frame:** the port was rendered for each of the recording's 32744 frames and compared byte for byte. 27895 are identical, and 2615 more differ on purpose, in the two effects where the port shows what a VGA card shows (above). `test/original.test.js` checks one frame in each effect in a single run of the demo.
 
   | Effect | Identical frames |
   |---|---|
@@ -123,10 +123,10 @@ Verified:
   | Credits | 1394 of 1394 |
   | Plasma | 636 of 1457 |
   | Cyclic plasma | 1336 of 1337 |
-  | Morphing line figures | 1203 of 1203 |
+  | Morphing line figures | 0 of 1203 (black background, as on a VGA card) |
   | Chess effect | 970 of 984 |
-  | Water | 1419 of 1421 |
-  | Glentz vector | 909 of 911 |
+  | Water | 9 of 1421 (white wing highlights, as on a VGA card) |
+  | Glentz vector | 911 of 911 |
   | Picture wobbler | 1182 of 1191 |
   | Chess zoomer, parallax bars, spheres | 3381 of 4015 |
   | Glentz chess cube | 1452 of 1452 |

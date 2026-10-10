@@ -8,7 +8,6 @@
 import { FrameScan } from './screen.js';
 
 /** Graphics mode register (GC 5) bit 6: 256-colour shift; DOSBox's vga.mode is then M_VGA. */
-const SHIFT_256 = 0x40;
 const PLANE_SIZE = 0x10000;
 /** Attribute index bit 5: palette address source (screen on, palette registers locked). */
 const ATTRIBUTE_PAS = 0x20;
@@ -64,41 +63,12 @@ const VGA_DEFAULT_PALETTE = (() => {
 export class Vga {
   constructor() {
     this.planes = [0, 1, 2, 3].map(() => new Uint8Array(PLANE_SIZE));
-    /**
-     * DOSBox's EGA pixel buffer (vga.fastmem). DOSBox draws the 16-colour modes from a copy of video memory that
-     * only its EGA write handler updates, i.e. only writes made while GC 5 bit 6 (256-colour shift) is clear.
-     * Writes made in a 256-colour mode (chain-4 or unchained) change video memory but not that copy, so when the
-     * demo goes back to 16 colours the old 16-colour-era bytes reappear (the morphing lines' background, G3
-     * notes). egaView: the copy's content for bytes not written since the last switch to 16 colours; egaEntry: the
-     * planes at that switch (a byte that differs from it has been written in 16-colour mode since). Both null:
-     * the copy equals the planes.
-     * DOSBox: src/hardware/vga_memory.cpp, VGA_UnchainedEGA_Handler::writeHandler stores to vga.mem.linear AND
-     * expands the byte into vga.fastmem; VGA_UnchainedVGA_Handler / VGA_ChainedVGA_Handler (256 colours) only
-     * store to vga.mem.linear; src/hardware/vga_draw.cpp VGA_SetupDrawing draws M_EGA from vga.fastmem. A real
-     * VGA has no such copy: there the 16-colour screen always shows the planes (the morph background is black).
-     * RULE for parts: in a 16-colour mode write video memory with vga.write() (it updates the copy). A direct
-     * vga.planes write is noticed only when it changes the byte; writing the value the byte already had when the
-     * mode went back to 16 colours leaves the stale copy showing. Code that writes vga.planes directly in a
-     * 16-colour mode must call vga.markEgaWritten(offset, count) for the bytes it wrote.
-     */
-    this.egaView = null;
-    this.egaEntry = null;
-    this.isEgaMemoryMode = true;
-    this.egaRowPlanes = null;
     this.latches = new Uint8Array(4);
     this.sequencer = new Uint8Array(8);
     this.graphics = new Uint8Array(16);
     this.crtc = new Uint8Array(32);
     this.attribute = new Uint8Array(32);
     this.dac = new Uint8Array(768);
-    /**
-     * DOSBox's render palette, what a 256-colour mode shows: a DAC write updates it only while the graphics mode
-     * register has the 256-colour shift (bit 6; DOSBox's M_VGA), and entering that mode keeps entries 16..255 from
-     * the last time (entries 0..15 hold the 16-colour mode's attribute colours). G4: the water (0749:01cc) writes white in the 16-colour mode, then
-     * switches; its colours 60..62, never written in 256 colours since the cyclic plasma, show (1,1,1).
-     */
-    this.renderPalette = new Uint8Array(768);
-    this.latchedIs256Colours = false;
     this.dacMask = 0xff;
     this.sequencerIndex = 0;
     this.graphicsIndex = 0;
@@ -179,8 +149,6 @@ export class Vga {
   latchDisplay() {
     this.latchedStart = this.startAddress;
     this.latchedPanning = this.attribute[0x13];
-    // DOSBox switches its drawing mode (and so which palette it shows) at the start of a frame.
-    this.latchedIs256Colours = this.is256Colours;
   }
 
   // ---- ports ----
@@ -229,9 +197,6 @@ export class Vga {
           this.dac[entry] = this.dacPending[0];
           this.dac[entry + 1] = this.dacPending[1];
           this.dac[entry + 2] = this.dacPending[2];
-          if (this.graphics[5] & SHIFT_256) {
-            this.renderPalette.set(this.dacPending, entry);
-          }
         }
         this.dacWriteIndex = (this.dacWriteIndex + 1) % 768;
         break;
@@ -240,11 +205,7 @@ export class Vga {
         this.graphicsIndex = v & 15;
         break;
       case 0x3cf:
-        if (this.graphicsIndex === 5 && (this.graphics[5] & SHIFT_256) === 0 && (v & SHIFT_256) !== 0) {
-          this.keepAttributeColours();
-        }
         this.graphics[this.graphicsIndex] = v;
-        this.updateMemoryMode();
         break;
       case 0x3d4:
         this.crtcIndex = v & 31;
@@ -308,86 +269,11 @@ export class Vga {
     }
     const mapMask = this.sequencer[2];
     const writeMode = this.graphics[5] & 3;
-    const egaView = this.isEgaMemoryMode ? this.egaView : null;
     for (let p = 0; p < 4; p++) {
       if (mapMask & (1 << p)) {
-        const data = writeMode === 1 ? this.latches[p] : this.writeMode0(p, value);
-        this.planes[p][address] = data;
+        this.planes[p][address] = writeMode === 1 ? this.latches[p] : this.writeMode0(p, value);
       }
     }
-    if (egaView !== null) {
-      // DOSBox expands all four planes of the written byte into its pixel buffer, not just the written ones.
-      for (let p = 0; p < 4; p++) {
-        egaView[p][address] = this.planes[p][address];
-      }
-    }
-  }
-
-  // ---- DOSBox's EGA pixel buffer (see egaView in the constructor) ----
-
-  /** DOSBox's VGA_DetermineMode: a graphics mode with GC 5 bit 6 clear uses the EGA handler (M_EGA). */
-  updateMemoryMode() {
-    const isEga = !this.isTextMode && (this.graphics[5] & 0x40) === 0;
-    if (isEga === this.isEgaMemoryMode) {
-      return;
-    }
-    this.isEgaMemoryMode = isEga;
-    if (isEga) {
-      if (this.egaView === null) {
-        this.egaView = this.planes.map((plane) => plane.slice());
-      }
-      this.egaEntry = this.planes.map((plane) => plane.slice());
-      return;
-    }
-    if (this.egaView === null) {
-      this.egaView = this.planes.map((plane) => plane.slice());
-    } else if (this.egaEntry !== null) {
-      for (let p = 0; p < 4; p++) {
-        const view = this.egaView[p];
-        const entry = this.egaEntry[p];
-        const plane = this.planes[p];
-        for (let i = 0; i < PLANE_SIZE; i++) {
-          if (plane[i] !== entry[i]) {
-            view[i] = plane[i];
-          }
-        }
-      }
-    }
-    this.egaEntry = null;
-  }
-
-  /** Direct vga.planes writes of `count` bytes at `offset` in a 16-colour mode: the EGA copy takes them too. */
-  markEgaWritten(offset, count) {
-    if (this.egaView === null || !this.isEgaMemoryMode) {
-      return;
-    }
-    for (let p = 0; p < 4; p++) {
-      for (let i = 0; i < count; i++) {
-        const o = (offset + i) & 0xffff;
-        this.egaView[p][o] = this.planes[p][o];
-      }
-    }
-  }
-
-  /** The planes as DOSBox's 16-colour renderer sees them, for `count` bytes from `address` (a row). */
-  egaPlanesForRow(address, count) {
-    if (this.egaEntry === null || !this.isEgaMemoryMode) {
-      return this.planes;
-    }
-    if (this.egaRowPlanes === null) {
-      this.egaRowPlanes = [0, 1, 2, 3].map(() => new Uint8Array(PLANE_SIZE));
-    }
-    for (let p = 0; p < 4; p++) {
-      const view = this.egaView[p];
-      const entry = this.egaEntry[p];
-      const plane = this.planes[p];
-      const out = this.egaRowPlanes[p];
-      for (let i = 0; i < count; i++) {
-        const o = (address + i) & 0xffff;
-        out[o] = plane[o] !== entry[o] ? plane[o] : view[o];
-      }
-    }
-    return this.egaRowPlanes;
   }
 
   /** Write mode 0: set/reset, rotate is unused by the demo; the logical function and the bit mask apply. */
@@ -459,19 +345,6 @@ export class Vga {
     return (this.attributeIndex & ATTRIBUTE_PAS) === 0;
   }
 
-  /** Entering a 256-colour mode: render palette entries 0..15 = the DAC colours the attribute controller picked. */
-  keepAttributeColours() {
-    const attribute = this.attribute;
-    const colourSelect = attribute[0x14];
-    const isP54S = (attribute[0x10] & 0x80) !== 0;
-    const high = (colourSelect & 0x0c) << 4;
-    for (let i = 0; i < 16; i++) {
-      const entry = attribute[i] & 0x3f;
-      const index = isP54S ? high | ((colourSelect & 3) << 4) | (entry & 0x0f) : high | entry;
-      this.renderPalette.set(this.dac.subarray(index * 3, index * 3 + 3), i * 3);
-    }
-  }
-
   get is256Colours() {
     return (this.attribute[0x10] & 0x40) !== 0;
   }
@@ -486,13 +359,7 @@ export class Vga {
   /** int 10h ax=13h: 320x200x256, chain-4, video memory cleared, 70 Hz. */
   setMode13() {
     this.isTextMode = false;
-    this.graphics[5] = 0x40;
-    this.updateMemoryMode();
     this.clearPlanes();
-    // DOSBox's INT10_SetVideoMode memsets vga.mem.linear and vga.fastmem: the EGA copy is cleared too (G2: the
-    // blue cubes' last page does not come back in the intro's 16-colour mode, frames 584..760).
-    this.egaView = null;
-    this.egaEntry = null;
     this.sequencer.set([0x03, 0x01, 0x0f, 0x00, 0x0e]);
     this.graphics.set([0, 0, 0, 0, 0, 0x40, 0x05, 0x0f, 0xff]);
     this.crtc.set([0x5f, 0x4f, 0x50, 0x82, 0x54, 0x80, 0xbf, 0x1f, 0x00, 0x41, 0, 0, 0, 0, 0, 0,
@@ -501,7 +368,6 @@ export class Vga {
     // The BIOS loads its default 256-colour palette at the mode set (G7: colour 0 is black after 07a5).
     this.dac.set(VGA_DEFAULT_PALETTE);
     this.dacMask = 0xff;
-    this.renderPalette.set(this.dac);
   }
 
   /** int 10h ax=12h: 640x480x16, planar, video memory cleared. */
@@ -513,16 +379,11 @@ export class Vga {
     this.crtc.set([0x5f, 0x4f, 0x50, 0x82, 0x54, 0x80, 0x0b, 0x3e, 0x00, 0x40, 0, 0, 0, 0, 0, 0,
       0xea, 0x8c, 0xdf, 0x28, 0x00, 0xe7, 0x04, 0xe3, 0xff]);
     this.setAttributeIdentity(0x01);
-    // Cleared through the EGA handler: DOSBox's 16-colour copy is cleared too.
-    this.isEgaMemoryMode = true;
-    this.egaView = null;
-    this.egaEntry = null;
   }
 
   /** int 10h ax=3: the 80x25 text screen, cleared, with the BIOS's 16-colour palette. */
   setMode3() {
     this.isTextMode = true;
-    this.updateMemoryMode();
     this.sequencer.set([0x03, 0x00, 0x03, 0x00, 0x02]);
     this.graphics.set([0, 0, 0, 0, 0, 0x10, 0x0e, 0x00, 0xff]);
     this.crtc.set([0x5f, 0x4f, 0x50, 0x82, 0x55, 0x81, 0xbf, 0x1f, 0x00, 0x4f, 0x0d, 0x0e, 0, 0, 0, 0,

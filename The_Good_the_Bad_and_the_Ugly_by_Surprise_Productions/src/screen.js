@@ -17,7 +17,7 @@ export function dacTo8(v) {
 
 function paletteColours(vga) {
   const colours = new Uint32Array(256);
-  const dac = vga.is256Colours && vga.latchedIs256Colours ? vga.renderPalette : vga.dac;
+  const dac = vga.dac;
   for (let i = 0; i < 256; i++) {
     const index = (i & vga.dacMask) * 3;
     colours[i] = 0xff000000 | (dacTo8(dac[index + 2]) << 16) | (dacTo8(dac[index + 1]) << 8) | dacTo8(dac[index]);
@@ -125,7 +125,7 @@ export class FrameScan {
   /** 16 colours: attribute palette, then the colour select register (0x14) and P54S (mode control bit 7). */
   drawRow16(row) {
     const { vga, colours, pixels, width } = this;
-    const [p0, p1, p2, p3] = vga.egaPlanesForRow(this.address, (width >> 3) + 1);
+    const [p0, p1, p2, p3] = vga.planes;
     const attribute = vga.attribute;
     const colourSelect = attribute[0x14];
     const isP54S = (attribute[0x10] & 0x80) !== 0;

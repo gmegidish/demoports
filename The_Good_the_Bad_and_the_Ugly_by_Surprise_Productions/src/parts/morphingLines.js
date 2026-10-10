@@ -7,9 +7,9 @@
 // every other frame, makes the newest plane white and the 3 older ones grey: a motion trail). Pages at 4000h and
 // 8000h are flipped every frame. 16-colour mode 0299:01cc, set by the main script.
 //
-// Outside the black box the recording shows the plasma 0cf9's picture as bitplanes: DOSBox draws 16-colour modes
-// from a copy of video memory that 256-colour writes (the cyclic plasma, the main script's clear) never update
-// (vga.js, egaView). On a real VGA it would be black.
+// Outside the black box the screen is black, as on a VGA card. The DOSBox recording shows the plasma 0cf9's picture
+// there instead: DOSBox draws 16-colour modes from a copy of video memory that 256-colour writes (the cyclic plasma,
+// the main script's clear) never update. The port follows the hardware.
 import { linear, waitTick } from '../machine.js';
 import { setP54S } from '../library.js';
 import { drawLine } from './morphingLinesDraw.js';

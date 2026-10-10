@@ -188,16 +188,11 @@ function writeMode3Byte(vga, offset, data, isOr) {
   const mask = value & vga.graphics[8];
   const setReset = vga.graphics[0];
   const mapMask = vga.sequencer[2];
-  // DOSBox's EGA write handler also updates its pixel copy (vga.egaView) in a 16-colour mode.
-  const egaView = vga.isEgaMemoryMode ? vga.egaView : null;
   for (let p = 0; p < 4; p++) {
     if (mapMask & (1 << p)) {
       const colour = setReset & (1 << p) ? 0xff : 0;
       const data = (colour & mask) | (vga.latches[p] & ~mask & 0xff);
       planes[p][offset] = data;
-      if (egaView !== null) {
-        egaView[p][offset] = data;
-      }
     }
   }
 }
