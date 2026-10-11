@@ -116,7 +116,7 @@ if (introOnly || stop < 7) goto exit;
 loadFont("font.raw", add=0, shift=0);       // 0x1dcd0
 for (i=0;i<32;i++) setDAC(i, i,i,i);        // ports 0x3c8/0x3c9: grey ramp 0..31 in entries 0..31
 drawSmallTextCentered("waiting for", y=170, dst=VGA);   // 0x1dff8
-drawSmallTextCentered("robotnik{{{", y=180, dst=VGA);   // '{' = '.' glyph -> "ROBOTNIK..."
+drawSmallTextCentered("robotnik\x7b\x7b\x7b", y=180, dst=VGA);   // 0x7b '{' = '.' glyph -> "ROBOTNIK..."
 freeFont();                                  // 0x1dda0
 precalcPart7Maps();                          // 0x1fd38, see 2.2
 gmpLoadXM("bergborr.xm", 1, 0, &module);

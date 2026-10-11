@@ -54,7 +54,7 @@ if ([esp+0x2c] != 0 || lastPart < 7) goto exit            // intro-only / end-pa
 LoadSmallFont("font.raw", add=0, shift=0)                   // 0x1dcd0
 for i in 0..31: DAC[i] = (i,i,i)                            // 6-bit grey ramp. Entries 32..255 untouched
 DrawSmallTextCentered("waiting for", y=170, dst=VGA)        // 0x1dff8
-DrawSmallTextCentered("robotnik{{{", y=180, dst=VGA)        // '{' is the '.' glyph
+DrawSmallTextCentered("robotnik\x7b\x7b\x7b", y=180, dst=VGA)        // 0x7b '{' is the '.' glyph
 FreeFont()                                                  // 0x1dda0
 BuildBallTables()                                           // 0x1fd38 (part 7, §2.2). This is the slow part
 load bergborr.xm (0x1c0a8), play (0x2d9cc), install timer callback 0x12280 (0x301c0)
