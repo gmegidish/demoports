@@ -28,6 +28,7 @@ little longer.
 | The Control | Coma | 1996 | MS-DOS | [src](https://github.com/gmegidish/demoports/tree/main/The_Control_by_Coma) · [play](https://gmegidish.github.io/demoports/The_Control_by_Coma/) |
 | The Quest of Kahn | Immortals | 1997 | MS-DOS | [src](https://github.com/gmegidish/demoports/tree/main/The_Quest_of_Kahn_by_Immortals) · [play](https://gmegidish.github.io/demoports/The_Quest_of_Kahn_by_Immortals/) |
 | Brother I Can See The Light | Immortals | 1997 | MS-DOS | [src](https://github.com/gmegidish/demoports/tree/main/Brother_I_Can_See_The_Light_by_Immortals) · [play](https://gmegidish.github.io/demoports/Brother_I_Can_See_The_Light_by_Immortals/) |
+| Robotnik | Rage | 1997 | MS-DOS | [src](https://github.com/gmegidish/demoports/tree/main/Robotnik_by_Rage) · [play](https://gmegidish.github.io/demoports/Robotnik_by_Rage/) |
 | Outside | Melon Dezign | 1997 | MS-DOS | [src](https://github.com/gmegidish/demoports/tree/main/Outside_by_Melon) · [play](https://gmegidish.github.io/demoports/Outside_by_Melon/) |
 | Evoid Droid | Excess & Portal Process | 2007 | Xbox 360 | [src](https://github.com/gmegidish/demoports/tree/main/Evoid_Droid_by_Excess_Process) · [play](https://gmegidish.github.io/demoports/Evoid_Droid_by_Excess_Process/) |
 
@@ -72,6 +73,10 @@ little longer.
 ## Brother I Can See The Light — Immortals
 
 [![Brother I Can See The Light](Brother_I_Can_See_The_Light_by_Immortals/docs/poster.png)](https://gmegidish.github.io/demoports/Brother_I_Can_See_The_Light_by_Immortals/)
+
+## Robotnik — Rage
+
+[![Robotnik](Robotnik_by_Rage/docs/poster.png)](https://gmegidish.github.io/demoports/Robotnik_by_Rage/)
 
 ## Outside — Melon Dezign
 
